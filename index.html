@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luyện thi ITIL 4 Foundation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: sổ tay học tập — thanh điều hướng trên cùng, nội dung một cột rộng ~ 860px, các bài học là "chương" có mã LO */
+:root{
+  --ink:#16233a;
+  --paper:#f5f6f8;
+  --card:#ffffff;
+  --line:#dde1e8;
+  --muted:#5b6678;
+  --accent:#1f6f8b;
+  --accent-soft:#e3f0f4;
+  --mark:#c9822b;
+  --mark-soft:#fbf0e1;
+  --good:#2f7d4f; --good-soft:#e5f3ea;
+  --bad:#b23b3b; --bad-soft:#f8e6e6;
+  --display:"Lora", Georgia, "Times New Roman", serif;
+  --body:"Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#e6eaf1; --paper:#10161f; --card:#182130; --line:#2a3547; --muted:#9aa6b8;
+    --accent:#5fb3cf; --accent-soft:#17303b; --mark:#e0a458; --mark-soft:#33281a;
+    --good:#5cc187; --good-soft:#163222; --bad:#e57b7b; --bad-soft:#3a1d1d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#e6eaf1; --paper:#10161f; --card:#182130; --line:#2a3547; --muted:#9aa6b8;
+  --accent:#5fb3cf; --accent-soft:#17303b; --mark:#e0a458; --mark-soft:#33281a;
+  --good:#5cc187; --good-soft:#163222; --bad:#e57b7b; --bad-soft:#3a1d1d;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.25;margin:0}
+h1{font-size:1.9rem} h2{font-size:1.45rem} h3{font-size:1.12rem}
+p{margin:0}
+a{color:var(--accent)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,a:focus-visible,label:focus-within{outline:2px solid var(--mark);outline-offset:2px}
+.wrap{max-width:880px;margin:0 auto;padding:0 18px}
+header.top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;padding-top:10px;padding-bottom:10px}
+.brand{font-family:var(--display);font-weight:700;font-size:1.05rem;margin-right:auto}
+.brand small{display:block;font-family:var(--body);font-weight:500;font-size:.75rem;color:var(--muted)}
+nav.tabs{display:flex;flex-wrap:wrap;gap:4px}
+nav.tabs a{padding:6px 12px;border-radius:6px;text-decoration:none;color:var(--muted);font-weight:500;font-size:.92rem}
+nav.tabs a.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+main{padding:28px 0 60px}
+section.view{display:none;flex-direction:column;gap:22px}
+section.view.on{display:flex}
+.lead{color:var(--muted);max-width:65ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.fact b{display:block;font-family:var(--display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.fact span{color:var(--muted);font-size:.88rem}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.03em}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl{overflow-x:auto}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.tag.mark{background:var(--mark-soft);color:var(--mark)}
+.tip{border-left:3px solid var(--mark);background:var(--mark-soft);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.94rem}
+.tip b{color:var(--mark)}
+/* lessons */
+.lesson{background:var(--card);border:1px solid var(--line);border-radius:10px}
+.lesson>summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;gap:14px;align-items:baseline}
+.lesson>summary::-webkit-details-marker{display:none}
+.lesson>summary .lo{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;min-width:44px}
+.lesson>summary h3{flex:1}
+.lesson>summary .w{color:var(--muted);font-size:.85rem;white-space:nowrap}
+.lesson[open]>summary{border-bottom:1px solid var(--line)}
+.lesson .body{padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px}
+.lesson .body ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.lesson .body li{max-width:72ch}
+.term{font-weight:600}
+.en{color:var(--muted);font-style:italic}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.mini{border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.93rem}
+.mini b{display:block}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:7px;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#0d1a20}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#0d1a20}}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+select{font:inherit;padding:7px 10px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+/* flashcards */
+.flash{min-height:220px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:12px;cursor:pointer;user-select:none}
+.flash .front{font-family:var(--display);font-size:1.5rem;font-weight:600}
+.flash .back{font-size:1.02rem;max-width:60ch}
+.flash .hint{color:var(--muted);font-size:.82rem}
+.counter{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.9rem}
+/* quiz */
+.q-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.q-text{font-size:1.05rem;font-weight:500;white-space:pre-line}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--card);text-align:left;color:var(--ink);width:100%}
+.opt:hover{border-color:var(--accent)}
+.opt .k{font-weight:700;color:var(--accent);min-width:18px}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.explain{font-size:.94rem;padding:10px 14px;border-radius:8px;background:var(--paper);border:1px solid var(--line)}
+.explain.ok b{color:var(--good)} .explain.no b{color:var(--bad)}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.1rem}
+.timer.low{color:var(--bad)}
+.navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
+.navgrid button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;padding:6px 0;font-size:.85rem;font-variant-numeric:tabular-nums}
+.navgrid button.ans{background:var(--accent-soft);border-color:var(--accent)}
+.navgrid button.flag{box-shadow:inset 0 -3px 0 var(--mark)}
+.navgrid button.cur{outline:2px solid var(--ink)}
+.navgrid button.r{background:var(--good-soft);border-color:var(--good)}
+.navgrid button.x{background:var(--bad-soft);border-color:var(--bad)}
+.result-big{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.result-big .score{font-family:var(--display);font-size:2.6rem;font-weight:700;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:700;font-size:.9rem}
+.pill.pass{background:var(--good-soft);color:var(--good)} .pill.fail{background:var(--bad-soft);color:var(--bad)}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden;min-width:80px}
+.bar i{display:block;height:100%;background:var(--accent)}
+.day{display:grid;grid-template-columns:70px 1fr;gap:4px 14px;padding:10px 0;border-bottom:1px solid var(--line)}
+.day:last-child{border-bottom:0}
+.day .d{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.day label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.day input{margin-top:5px;accent-color:var(--accent)}
+.day.done .txt{color:var(--muted);text-decoration:line-through}
+.hidden{display:none!important}
+@media (max-width:520px){
+  h1{font-size:1.5rem}
+  .card{padding:16px}
+  .lesson>summary{padding:14px 16px}
+  .lesson .body{padding:14px 16px 18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">ITIL 4 Foundation<small>Khoá luyện thi chứng chỉ</small></div>
+    <nav class="tabs" aria-label="Các phần của khoá học">
+      <a href="#tong-quan" data-v="tong-quan">Tổng quan</a>
+      <a href="#bai-hoc" data-v="bai-hoc">Bài học</a>
+      <a href="#the-nho" data-v="the-nho">Thẻ ghi nhớ</a>
+      <a href="#luyen-tap" data-v="luyen-tap">Luyện theo bài</a>
+      <a href="#thi-thu" data-v="thi-thu">Thi thử</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ TỔNG QUAN ============ -->
+<section class="view" id="v-tong-quan">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <h1>Khoá luyện thi ITIL 4 Foundation</h1>
+    <p class="lead">Lộ trình 14 ngày, 7 bài bám sát 7 mục tiêu học tập (LO) của đề cương chính thức, kèm thẻ ghi nhớ, bài luyện theo chủ đề và đề thi thử 40 câu tính giờ như thi thật. Mục tiêu: đạt từ 32/40 trở lên ở đề thi thử trước khi đăng ký thi.</p>
+  </div>
+
+  <div class="facts">
+    <div class="fact"><b>40</b><span>câu trắc nghiệm, 4 lựa chọn, 1 đáp án đúng</span></div>
+    <div class="fact"><b>60 phút</b><span>thi bằng ngôn ngữ không phải tiếng mẹ đẻ thường được cộng 25% (75 phút)</span></div>
+    <div class="fact"><b>26/40</b><span>điểm đạt (65%), không trừ điểm câu sai</span></div>
+    <div class="fact"><b>Đóng sách</b><span>thi trực tuyến có giám sát qua webcam hoặc tại trung tâm</span></div>
+  </div>
+
+  <div class="card" style="display:flex;flex-direction:column;gap:12px">
+    <h2>Đề thi phân bổ câu hỏi thế nào</h2>
+    <p class="lead">Gần một nửa số điểm nằm ở LO7: hiểu chi tiết 7 thực hành. Đây là phần bạn cần dành nhiều thời gian nhất.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Mục tiêu</th><th>Nội dung</th><th>Số câu</th><th style="width:30%">Tỷ trọng</th></tr></thead>
+      <tbody id="weightRows"></tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="display:flex;flex-direction:column;gap:6px">
+    <div class="q-head"><h2>Lộ trình 14 ngày</h2><span class="counter" id="planCount"></span></div>
+    <p class="lead" style="margin-bottom:6px">Mỗi ngày khoảng 60 đến 90 phút. Đánh dấu ngày đã xong; trình duyệt này sẽ nhớ giúp bạn.</p>
+    <div id="plan"></div>
+  </div>
+
+  <div class="card" style="display:flex;flex-direction:column;gap:10px">
+    <h2>Kết quả thi thử của bạn</h2>
+    <div id="history"></div>
+  </div>
+
+  <div class="tip"><b>Cách làm bài:</b> đọc kỹ từ khoá trong câu hỏi (purpose, MOST, BEST, NOT). Đề ITIL thường có 2 đáp án gần đúng; đáp án đúng là câu khớp nguyên văn với định nghĩa chính thức. Vì vậy hãy học thuộc định nghĩa bằng tiếng Anh, không chỉ hiểu ý.</div>
+</section>
+
+<!-- ============ BÀI HỌC ============ -->
+<section class="view" id="v-bai-hoc">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <h1>Bài học</h1>
+    <p class="lead">Bảy bài theo đúng thứ tự đề cương. Thuật ngữ giữ tiếng Anh vì đề thi dùng nguyên văn. Học xong mỗi bài, vào “Luyện theo bài” để làm câu hỏi của bài đó.</p>
+  </div>
+  <div id="lessons" style="display:flex;flex-direction:column;gap:12px"></div>
+</section>
+
+<!-- ============ THẺ GHI NHỚ ============ -->
+<section class="view" id="v-the-nho">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <h1>Thẻ ghi nhớ</h1>
+    <p class="lead">Bấm vào thẻ (hoặc phím cách) để lật. Dùng phím ← → để chuyển thẻ. Đánh dấu “Đã thuộc” để thẻ đó không còn xuất hiện khi lọc “Chưa thuộc”.</p>
+  </div>
+  <div class="btnrow">
+    <label for="fcFilter" class="counter">Bộ thẻ</label>
+    <select id="fcFilter"></select>
+    <select id="fcKnown" aria-label="Lọc theo trạng thái">
+      <option value="all">Tất cả</option>
+      <option value="todo">Chưa thuộc</option>
+    </select>
+    <button class="btn" id="fcShuffle">Xáo thẻ</button>
+    <span class="counter" id="fcCount" style="margin-left:auto"></span>
+  </div>
+  <div class="card flash" id="fcCard" tabindex="0" role="button" aria-label="Lật thẻ">
+    <span class="tag" id="fcTag"></span>
+    <div class="front" id="fcFront"></div>
+    <div class="back hidden" id="fcBack"></div>
+    <div class="hint" id="fcHint">Bấm để xem định nghĩa</div>
+  </div>
+  <div class="btnrow">
+    <button class="btn" id="fcPrev">← Thẻ trước</button>
+    <button class="btn" id="fcKnow">Đã thuộc</button>
+    <button class="btn primary" id="fcNext">Thẻ sau →</button>
+  </div>
+</section>
+
+<!-- ============ LUYỆN THEO BÀI ============ -->
+<section class="view" id="v-luyen-tap">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <h1>Luyện theo bài</h1>
+    <p class="lead">Chọn một bài, trả lời từng câu và xem giải thích ngay. Không tính giờ.</p>
+  </div>
+  <div class="btnrow">
+    <label for="prSel" class="counter">Bài</label>
+    <select id="prSel"></select>
+    <button class="btn primary" id="prStart">Bắt đầu</button>
+  </div>
+  <div class="card hidden" id="prBox" style="display:flex;flex-direction:column;gap:14px"></div>
+</section>
+
+<!-- ============ THI THỬ ============ -->
+<section class="view" id="v-thi-thu">
+  <div id="exIntro" style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h1>Thi thử</h1>
+      <p class="lead">Mỗi đề 40 câu theo đúng tỷ trọng đề thật, 60 phút. Có 8 đề cố định (làm lại vẫn ra cùng bộ câu, tiện so sánh tiến bộ), đề ngẫu nhiên, và đề ôn tập gồm những câu bạn từng làm sai. Bạn có thể đánh dấu câu để xem lại. Kết quả và giải thích hiện ra sau khi nộp bài.</p>
+    </div>
+    <div class="btnrow">
+      <label for="exKind" class="counter">Đề</label>
+      <select id="exKind"></select>
+    </div>
+    <div class="btnrow">
+      <label for="exTime" class="counter">Thời gian</label>
+      <select id="exTime">
+        <option value="60">60 phút (chuẩn)</option>
+        <option value="75">75 phút (thi bằng ngôn ngữ thứ hai)</option>
+        <option value="0">Không tính giờ</option>
+      </select>
+      <button class="btn primary" id="exStart">Bắt đầu thi thử</button>
+    </div>
+  </div>
+  <div id="exRun" class="hidden" style="display:flex;flex-direction:column;gap:14px">
+    <div class="card q-head" style="padding:12px 18px">
+      <span class="counter" id="exProg"></span>
+      <span class="timer" id="exTimer"></span>
+      <button class="btn primary" id="exSubmit">Nộp bài</button>
+    </div>
+    <div class="card" id="exQ" style="display:flex;flex-direction:column;gap:14px"></div>
+    <div class="btnrow">
+      <button class="btn" id="exPrev">← Câu trước</button>
+      <button class="btn" id="exFlag">Đánh dấu xem lại</button>
+      <button class="btn primary" id="exNext">Câu sau →</button>
+    </div>
+    <div class="card"><div class="navgrid" id="exNav"></div></div>
+    <div class="card hidden" id="exConfirm" style="display:flex;flex-direction:column;gap:10px">
+      <p id="exConfirmTxt"></p>
+      <div class="btnrow"><button class="btn primary" id="exYes">Nộp bài</button><button class="btn" id="exNo">Làm tiếp</button></div>
+    </div>
+  </div>
+  <div id="exResult" class="hidden" style="display:flex;flex-direction:column;gap:16px"></div>
+</section>
+
+</main>
+<footer class="wrap" style="padding:0 18px 40px;color:var(--muted);font-size:.82rem">
+  Tài liệu luyện thi không chính thức, câu hỏi do người soạn tự biên soạn theo đề cương ITIL 4 Foundation, không phải đề thi thật. ITIL® là nhãn hiệu đã đăng ký của PeopleCert group. Tiến độ học được lưu trong trình duyệt bạn đang dùng.
+</footer>
+
+<script>
+/* ================= DỮ LIỆU ================= */
+const LOS = [
+  {id:1, name:"Các khái niệm chính của quản lý dịch vụ", en:"Key concepts of service management", n:5},
+  {id:2, name:"7 nguyên tắc chỉ dẫn", en:"Guiding principles", n:6},
+  {id:3, name:"4 khía cạnh của quản lý dịch vụ", en:"Four dimensions", n:2},
+  {id:4, name:"Hệ thống giá trị dịch vụ", en:"Service value system", n:1},
+  {id:5, name:"Chuỗi giá trị dịch vụ", en:"Service value chain", n:2},
+  {id:6, name:"Mục đích của 15 thực hành", en:"Purpose of 15 practices", n:7},
+  {id:7, name:"Chi tiết 7 thực hành trọng tâm", en:"7 practices in detail", n:17}
+];
+
+const PLAN = [
+  "Đọc phần Tổng quan. Học Bài 1 phần định nghĩa: service management, value, organization, service provider/consumer.",
+  "Học Bài 1 phần còn lại: product, service, output/outcome, cost, risk, utility/warranty, service relationship. Luyện Bài 1.",
+  "Học Bài 2: 4 nguyên tắc đầu (Focus on value, Start where you are, Progress iteratively, Collaborate).",
+  "Học Bài 2: 3 nguyên tắc còn lại. Luyện Bài 2. Ôn thẻ ghi nhớ Bài 1 và 2.",
+  "Học Bài 3 (4 khía cạnh, PESTLE) và Bài 4 (SVS). Luyện Bài 3 và 4.",
+  "Học Bài 5: 6 hoạt động của chuỗi giá trị, mục đích từng hoạt động, value stream. Luyện Bài 5.",
+  "Ôn tập Bài 1 đến 5 bằng thẻ ghi nhớ. Làm lại các câu đã sai.",
+  "Học Bài 6: 8 thực hành đầu (Information security đến Release). Học thuộc câu “purpose”.",
+  "Học Bài 6: 7 thực hành còn lại và các định nghĩa IT asset, event, CI, release. Luyện Bài 6.",
+  "Học Bài 7: Continual improvement (mô hình 7 bước, CIR) và Change enablement (3 loại change, change authority, change schedule).",
+  "Học Bài 7: Incident management và Problem management (3 giai đoạn, known error, workaround).",
+  "Học Bài 7: Service request management, Service desk, Service level management. Luyện Bài 7 hai lượt.",
+  "Thi thử lần 1 (60 phút). Đọc kỹ giải thích các câu sai, ôn lại bài tương ứng.",
+  "Thi thử lần 2 và 3. Nếu đạt từ 32/40 cả hai lần, bạn đã sẵn sàng đăng ký thi."
+];
+
+const LESSONS = [
+{lo:1, html:`
+<p>ITIL xem quản lý dịch vụ là việc <b>đồng tạo ra giá trị</b> (<span class="en">value co-creation</span>) giữa nhà cung cấp và người dùng dịch vụ. Bài này chiếm 5 câu, chủ yếu hỏi đúng định nghĩa.</p>
+<div class="grid2">
+ <div class="mini"><b>Service management</b>Tập hợp năng lực tổ chức chuyên biệt để tạo giá trị cho khách hàng dưới dạng dịch vụ. <span class="en">A set of specialized organizational capabilities for enabling value for customers in the form of services.</span></div>
+ <div class="mini"><b>Value</b>Lợi ích, tính hữu dụng và tầm quan trọng <u>được cảm nhận</u> của một thứ. <span class="en">The perceived benefits, usefulness and importance of something.</span></div>
+ <div class="mini"><b>Organization</b>Một người hoặc nhóm người có chức năng, trách nhiệm, quyền hạn và quan hệ riêng để đạt mục tiêu.</div>
+ <div class="mini"><b>Product</b>Một cấu hình các nguồn lực của tổ chức được thiết kế để mang lại giá trị cho người tiêu dùng. <span class="en">A configuration of an organization's resources designed to offer value for a consumer.</span></div>
+ <div class="mini"><b>Service</b>Phương tiện giúp đồng tạo giá trị bằng cách tạo điều kiện cho kết quả mà khách hàng muốn đạt được, <u>mà khách hàng không phải tự quản lý các chi phí và rủi ro cụ thể</u>.</div>
+ <div class="mini"><b>Service offering</b>Mô tả chính thức của một hay nhiều dịch vụ cho một nhóm người dùng mục tiêu. Gồm: <b>goods</b> (hàng hoá, chuyển quyền sở hữu), <b>access to resources</b> (quyền truy cập, không chuyển sở hữu), <b>service actions</b> (hành động dịch vụ).</div>
+</div>
+<h3>Các vai trò phía người tiêu dùng dịch vụ</h3>
+<ul>
+ <li><span class="term">Customer</span>: người xác định yêu cầu và chịu trách nhiệm về kết quả (outcome).</li>
+ <li><span class="term">User</span>: người sử dụng dịch vụ.</li>
+ <li><span class="term">Sponsor</span>: người phê duyệt ngân sách cho việc sử dụng dịch vụ.</li>
+</ul>
+<h3>Output, outcome, cost, risk</h3>
+<ul>
+ <li><span class="term">Output</span>: sản phẩm hữu hình hoặc vô hình của một hoạt động (ví dụ: bản báo cáo).</li>
+ <li><span class="term">Outcome</span>: kết quả cho một bên liên quan, đạt được nhờ một hay nhiều output (ví dụ: ra quyết định tốt hơn nhờ báo cáo).</li>
+ <li><span class="term">Cost</span>: khoản tiền chi cho một hoạt động hoặc nguồn lực. Dịch vụ có thể <i>loại bỏ</i> một số chi phí cho người dùng và <i>đưa thêm</i> chi phí khác (giá dịch vụ).</li>
+ <li><span class="term">Risk</span>: sự kiện có thể gây hại, tổn thất hoặc khiến việc đạt mục tiêu khó hơn. Cũng có thể hiểu là sự không chắc chắn về kết quả.</li>
+</ul>
+<h3>Utility và Warranty</h3>
+<ul>
+ <li><span class="term">Utility</span> (tiện ích): chức năng của sản phẩm/dịch vụ đáp ứng một nhu cầu cụ thể, tức “dịch vụ làm được gì”, phù hợp mục đích (<span class="en">fit for purpose</span>).</li>
+ <li><span class="term">Warranty</span> (bảo đảm): sự bảo đảm rằng sản phẩm/dịch vụ đáp ứng các yêu cầu đã thoả thuận, tức “dịch vụ vận hành ra sao”: khả dụng, năng lực, an ninh, liên tục (<span class="en">fit for use</span>).</li>
+</ul>
+<h3>Service relationship</h3>
+<p>Quan hệ dịch vụ gồm 3 thành phần: <b>service provision</b> (cung cấp), <b>service consumption</b> (tiêu dùng) và <b>service relationship management</b> (quản lý quan hệ dịch vụ).</p>
+<div class="tip"><b>Mẹo thi:</b> “Customer” chịu trách nhiệm về outcome, “Sponsor” duyệt ngân sách. Đề hay đánh tráo hai vai này. Utility = what it does, Warranty = how it performs.</div>`},
+{lo:2, html:`
+<p>Nguyên tắc chỉ dẫn (<span class="en">guiding principle</span>) là khuyến nghị có thể hướng dẫn tổ chức trong mọi hoàn cảnh, bất kể mục tiêu, chiến lược hay cơ cấu. Đề có 6 câu, thường mô tả một tình huống và hỏi nguyên tắc nào áp dụng.</p>
+<div class="tbl"><table>
+<thead><tr><th>Nguyên tắc</th><th>Ý chính để nhận diện trong đề</th></tr></thead>
+<tbody>
+<tr><td><b>Focus on value</b></td><td>Mọi việc phải liên kết, trực tiếp hoặc gián tiếp, với giá trị cho bên liên quan. Xác định ai là người nhận giá trị; hiểu giá trị theo góc nhìn khách hàng; chú ý trải nghiệm khách hàng (CX) và người dùng (UX).</td></tr>
+<tr><td><b>Start where you are</b></td><td>Đừng làm lại từ đầu. Đánh giá hiện trạng bằng quan sát trực tiếp; tái sử dụng những gì đang có. Đo lường để <i>hỗ trợ</i> phân tích, không thay thế việc quan sát.</td></tr>
+<tr><td><b>Progress iteratively with feedback</b></td><td>Chia việc lớn thành phần nhỏ, làm xong trong thời gian hợp lý. Thu phản hồi trước, trong và sau mỗi vòng lặp. Lặp nhanh không có nghĩa là cẩu thả.</td></tr>
+<tr><td><b>Collaborate and promote visibility</b></td><td>Đưa đúng người vào đúng vai trò; giao tiếp theo cách người nghe hiểu được. Thiếu minh bạch dẫn đến quyết định kém và thiếu ủng hộ. Làm cho công việc hiển thị rõ.</td></tr>
+<tr><td><b>Think and work holistically</b></td><td>Không dịch vụ hay thành phần nào đứng riêng lẻ. Nhìn toàn bộ hệ thống, cả 4 khía cạnh, cách các phần phối hợp với nhau.</td></tr>
+<tr><td><b>Keep it simple and practical</b></td><td>Dùng số bước tối thiểu. Bỏ những gì không tạo giá trị. Bắt đầu đơn giản, chỉ thêm kiểm soát khi thực sự cần. Tôn trọng thời gian của mọi người.</td></tr>
+<tr><td><b>Optimize and automate</b></td><td>Tối ưu hoá <u>trước</u> rồi mới tự động hoá. Giải phóng con người khỏi việc lặp lại để làm việc cần phán đoán. Dùng các nguyên tắc khác khi áp dụng.</td></tr>
+</tbody></table></div>
+<div class="tip"><b>Mẹo thi:</b> Các nguyên tắc tương tác với nhau, không áp dụng riêng lẻ. Câu nào nói “đánh giá cái đang có, tái sử dụng” là Start where you are. Câu nào nói “loại bỏ bước thừa” là Keep it simple. Câu nào nói “chia nhỏ, phản hồi” là Progress iteratively.</div>`},
+{lo:3, html:`
+<p>Để quản lý dịch vụ một cách toàn diện, tổ chức cần cân nhắc cả 4 khía cạnh cho mọi dịch vụ và cho toàn bộ hệ thống giá trị dịch vụ. Đề có 2 câu.</p>
+<div class="grid2">
+ <div class="mini"><b>Organizations and people</b>Cơ cấu tổ chức, vai trò, trách nhiệm, quyền hạn, văn hoá, năng lực và kỹ năng của nhân viên, phong cách lãnh đạo.</div>
+ <div class="mini"><b>Information and technology</b>Thông tin và kiến thức cần cho quản lý dịch vụ, cùng công nghệ hỗ trợ (cơ sở tri thức, tự động hoá, AI, cloud, di động…). Bao gồm vấn đề bảo mật, tuân thủ dữ liệu.</div>
+ <div class="mini"><b>Partners and suppliers</b>Quan hệ với các tổ chức khác tham gia thiết kế, phát triển, triển khai, hỗ trợ dịch vụ: hợp đồng, liên minh, chiến lược nhà cung cấp.</div>
+ <div class="mini"><b>Value streams and processes</b>Cách các phần của tổ chức phối hợp để tạo giá trị: các hoạt động, luồng công việc, kiểm soát và thủ tục.</div>
+</div>
+<p><b>Yếu tố bên ngoài (PESTLE)</b>: Political, Economic, Social, Technological, Legal, Environmental. Các yếu tố này ràng buộc hoặc ảnh hưởng đến <u>cả 4 khía cạnh</u>.</p>
+<div class="tip"><b>Mẹo thi:</b> “Workflow, controls, procedures” thuộc Value streams and processes. “Culture, competencies, roles” thuộc Organizations and people. “Contracts” thuộc Partners and suppliers.</div>`},
+{lo:4, html:`
+<p>Hệ thống giá trị dịch vụ (SVS) mô tả cách mọi thành phần và hoạt động của tổ chức phối hợp như một hệ thống để tạo ra giá trị. Đề có 1 câu.</p>
+<ul>
+ <li><b>Mục đích</b>: bảo đảm tổ chức liên tục đồng tạo giá trị với mọi bên liên quan thông qua việc sử dụng và quản lý sản phẩm, dịch vụ.</li>
+ <li><b>Đầu vào</b>: <span class="term">Opportunity</span> (cơ hội tạo giá trị hoặc cải tiến tổ chức) và <span class="term">Demand</span> (nhu cầu về sản phẩm, dịch vụ từ người dùng nội bộ và bên ngoài).</li>
+ <li><b>Đầu ra</b>: <span class="term">Value</span>.</li>
+ <li><b>5 thành phần</b>: Guiding principles, Governance, Service value chain, Practices, Continual improvement.</li>
+ <li><b>Governance</b>: phương tiện để định hướng và kiểm soát tổ chức.</li>
+ <li>SVS giúp phá vỡ <b>silo</b> (các bộ phận làm việc tách rời), tăng tính linh hoạt và phối hợp.</li>
+</ul>
+<div class="tip"><b>Mẹo thi:</b> 4 khía cạnh <u>không</u> phải là thành phần của SVS. Đề hay cài “four dimensions” hoặc “SLA” làm đáp án nhiễu.</div>`},
+{lo:5, html:`
+<p>Chuỗi giá trị dịch vụ (<span class="en">service value chain</span>) là mô hình vận hành gồm 6 hoạt động. Các hoạt động được kết hợp theo nhiều cách khác nhau thành <b>value stream</b>: chuỗi các bước tổ chức thực hiện để tạo và cung cấp sản phẩm, dịch vụ cho người dùng. Mỗi hoạt động dùng nhiều thực hành (practice) khác nhau. Đề có 2 câu.</p>
+<div class="tbl"><table>
+<thead><tr><th>Hoạt động</th><th>Mục đích</th></tr></thead>
+<tbody>
+<tr><td><b>Plan</b></td><td>Bảo đảm hiểu biết chung về tầm nhìn, hiện trạng và hướng cải tiến cho cả 4 khía cạnh và mọi sản phẩm, dịch vụ.</td></tr>
+<tr><td><b>Improve</b></td><td>Bảo đảm cải tiến liên tục sản phẩm, dịch vụ và thực hành trong mọi hoạt động của chuỗi giá trị và 4 khía cạnh.</td></tr>
+<tr><td><b>Engage</b></td><td>Hiểu rõ nhu cầu bên liên quan, minh bạch, gắn kết liên tục và quan hệ tốt với mọi bên liên quan.</td></tr>
+<tr><td><b>Design &amp; transition</b></td><td>Bảo đảm sản phẩm, dịch vụ liên tục đáp ứng kỳ vọng về chất lượng, chi phí và thời gian đưa ra thị trường.</td></tr>
+<tr><td><b>Obtain/build</b></td><td>Bảo đảm các thành phần dịch vụ sẵn có khi và ở nơi cần, đúng đặc tả đã thoả thuận.</td></tr>
+<tr><td><b>Deliver &amp; support</b></td><td>Bảo đảm dịch vụ được cung cấp và hỗ trợ theo đặc tả đã thoả thuận và kỳ vọng của bên liên quan.</td></tr>
+</tbody></table></div>
+<div class="tip"><b>Mẹo thi:</b> Từ khoá “stakeholder needs, transparency, good relationships” là Engage. “Quality, costs, time to market” là Design &amp; transition. “Available when and where needed” là Obtain/build. “Shared understanding of vision” là Plan.</div>`},
+{lo:6, html:`
+<p>Đề có 7 câu hỏi mục đích (<span class="en">purpose</span>) của 15 thực hành. Học thuộc câu mục đích bằng tiếng Anh, kèm một số định nghĩa then chốt.</p>
+<div class="tbl"><table>
+<thead><tr><th>Thực hành</th><th>Mục đích (rút gọn)</th></tr></thead>
+<tbody>
+<tr><td><b>Information security management</b></td><td>Bảo vệ thông tin tổ chức cần để vận hành kinh doanh. Gồm tính bảo mật, toàn vẹn, khả dụng (CIA), xác thực và chống chối bỏ.</td></tr>
+<tr><td><b>Relationship management</b></td><td>Thiết lập và nuôi dưỡng liên kết giữa tổ chức và các bên liên quan ở cấp chiến lược và chiến thuật.</td></tr>
+<tr><td><b>Supplier management</b></td><td>Bảo đảm nhà cung cấp và hiệu quả của họ được quản lý phù hợp để hỗ trợ cung cấp liền mạch sản phẩm, dịch vụ chất lượng.</td></tr>
+<tr><td><b>IT asset management</b></td><td>Lập kế hoạch và quản lý toàn bộ vòng đời tài sản IT để tối đa giá trị, kiểm soát chi phí, quản lý rủi ro, hỗ trợ ra quyết định mua sắm, tái sử dụng, loại bỏ và đáp ứng yêu cầu pháp lý, hợp đồng. <i>IT asset</i>: thành phần có giá trị tài chính góp phần cung cấp sản phẩm, dịch vụ IT.</td></tr>
+<tr><td><b>Monitoring and event management</b></td><td>Quan sát có hệ thống dịch vụ và thành phần dịch vụ; ghi nhận, báo cáo những thay đổi trạng thái được xác định là event. <i>Event</i>: bất kỳ thay đổi trạng thái nào có ý nghĩa với việc quản lý dịch vụ hoặc CI.</td></tr>
+<tr><td><b>Release management</b></td><td>Đưa dịch vụ và tính năng mới hoặc thay đổi vào sử dụng. <i>Release</i>: một phiên bản của dịch vụ/CI, hoặc tập hợp CI, được đưa vào sử dụng.</td></tr>
+<tr><td><b>Service configuration management</b></td><td>Bảo đảm thông tin chính xác, tin cậy về cấu hình dịch vụ và các CI hỗ trợ luôn sẵn có khi và ở nơi cần. <i>CI</i>: bất kỳ thành phần nào cần được quản lý để cung cấp dịch vụ IT.</td></tr>
+<tr><td><b>Deployment management</b></td><td>Di chuyển phần cứng, phần mềm, tài liệu, quy trình mới hoặc thay đổi vào môi trường vận hành thật (live). Cũng có thể tham gia triển khai lên môi trường kiểm thử.</td></tr>
+<tr><td><b>Continual improvement</b></td><td>Gắn thực hành và dịch vụ với nhu cầu kinh doanh luôn thay đổi thông qua cải tiến liên tục.</td></tr>
+<tr><td><b>Change enablement</b></td><td>Tối đa số lượng thay đổi thành công bằng cách đánh giá rủi ro đúng cách, phê duyệt thay đổi và quản lý change schedule.</td></tr>
+<tr><td><b>Incident management</b></td><td>Giảm thiểu tác động tiêu cực của sự cố bằng cách khôi phục hoạt động bình thường càng nhanh càng tốt.</td></tr>
+<tr><td><b>Problem management</b></td><td>Giảm khả năng xảy ra và tác động của sự cố bằng cách xác định nguyên nhân thực tế và tiềm ẩn, quản lý workaround và known error.</td></tr>
+<tr><td><b>Service request management</b></td><td>Hỗ trợ chất lượng dịch vụ đã thoả thuận bằng cách xử lý mọi yêu cầu dịch vụ do người dùng khởi tạo, đã được định nghĩa trước, một cách hiệu quả và thân thiện.</td></tr>
+<tr><td><b>Service desk</b></td><td>Tiếp nhận nhu cầu giải quyết sự cố và yêu cầu dịch vụ. Là điểm tiếp nhận và điểm liên hệ duy nhất với mọi người dùng.</td></tr>
+<tr><td><b>Service level management</b></td><td>Đặt mục tiêu mức dịch vụ rõ ràng, dựa trên nhu cầu kinh doanh; bảo đảm việc cung cấp dịch vụ được đánh giá, giám sát, quản lý theo các mục tiêu đó.</td></tr>
+</tbody></table></div>
+<div class="tip"><b>Mẹo thi:</b> Release (đưa vào <i>sử dụng</i>) khác Deployment (<i>di chuyển</i> thành phần vào môi trường). Config management nói về <i>thông tin</i> cấu hình; IT asset management nói về <i>vòng đời và giá trị tài chính</i>.</div>`},
+{lo:7, html:`
+<p>Phần nặng nhất: 17 câu. Đề hỏi tình huống cụ thể, nên cần hiểu cách thực hành vận hành, không chỉ thuộc mục đích.</p>
+<h3>Continual improvement</h3>
+<ul>
+ <li>Mô hình cải tiến liên tục 7 bước: <b>What is the vision?</b> → <b>Where are we now?</b> → <b>Where do we want to be?</b> → <b>How do we get there?</b> → <b>Take action</b> → <b>Did we get there?</b> → <b>How do we keep the momentum going?</b></li>
+ <li><b>Continual improvement register (CIR)</b>: cơ sở dữ liệu ghi nhận, theo dõi, ưu tiên các ý tưởng cải tiến. Có thể có nhiều CIR ở các cấp khác nhau.</li>
+ <li>Cải tiến liên tục là trách nhiệm của <b>tất cả mọi người</b>; có thể có một đội ngũ chuyên trách dẫn dắt nhưng không thay cho việc mọi người cùng tham gia.</li>
+</ul>
+<h3>Change enablement</h3>
+<ul>
+ <li><b>Change</b>: thêm, sửa đổi hoặc loại bỏ bất kỳ thứ gì có thể ảnh hưởng trực tiếp hay gián tiếp đến dịch vụ.</li>
+ <li><b>Change authority</b>: người hoặc nhóm phê duyệt một thay đổi. Cần chọn đúng change authority cho từng loại change để vừa nhanh vừa kiểm soát được rủi ro.</li>
+ <li><b>Standard change</b>: rủi ro thấp, đã hiểu rõ, <u>đã được phê duyệt trước</u>; thực hiện không cần phê duyệt thêm. Rủi ro được đánh giá khi tạo quy trình, không phải mỗi lần thực hiện.</li>
+ <li><b>Normal change</b>: cần được lên lịch, đánh giá và phê duyệt theo quy trình. Change authority tuỳ mức rủi ro: có thể là một người duy nhất với change rủi ro thấp, hoặc cấp quản lý cao với change lớn. Thường bắt đầu bằng một change request.</li>
+ <li><b>Emergency change</b>: phải thực hiện càng sớm càng tốt (ví dụ sửa sự cố, vá bảo mật). Vẫn cần đánh giá và phê duyệt nhưng có thể dùng change authority riêng và giảm bớt tài liệu, kiểm thử.</li>
+ <li><b>Change schedule</b>: dùng để lập kế hoạch thay đổi, hỗ trợ truyền thông, tránh xung đột, phân bổ nguồn lực. Cũng cung cấp thông tin cho incident management, problem management và improvement planning.</li>
+</ul>
+<h3>Incident management</h3>
+<ul>
+ <li><b>Incident</b>: sự gián đoạn ngoài kế hoạch của dịch vụ hoặc sự suy giảm chất lượng dịch vụ.</li>
+ <li>Mọi incident cần được ghi nhận và quản lý để giải quyết trong thời gian đáp ứng kỳ vọng của khách hàng và người dùng. <b>Ưu tiên theo mức tác động (impact) và độ khẩn cấp (urgency)</b>, theo phân loại đã thống nhất.</li>
+ <li>Có thể giải quyết bởi: người dùng tự xử lý (self-help), service desk, nhóm hỗ trợ, nhà cung cấp; incident nghiêm trọng (major incident) có quy trình riêng; incident phức tạp có thể cần đội tạm thời.</li>
+ <li><b>Swarming</b>: tập hợp nhiều bên liên quan cùng làm việc ngay từ đầu cho đến khi rõ ai là người phù hợp nhất để tiếp tục.</li>
+ <li>Cần công cụ ghi nhận, liên kết với CI, change, problem, known error; thông tin trong incident record cần chất lượng tốt.</li>
+</ul>
+<h3>Problem management</h3>
+<ul>
+ <li><b>Problem</b>: nguyên nhân hoặc nguyên nhân tiềm ẩn của một hay nhiều incident.</li>
+ <li><b>Known error</b>: một problem đã được phân tích nhưng chưa được giải quyết.</li>
+ <li><b>Workaround</b>: giải pháp làm giảm hoặc loại bỏ tác động của incident/problem khi chưa có cách giải quyết triệt để.</li>
+ <li>3 giai đoạn: <b>Problem identification</b> (phân tích xu hướng incident, incident lặp lại, thông tin từ nhà cung cấp, nhà phát triển…) → <b>Problem control</b> (phân tích problem, ghi nhận workaround và known error) → <b>Error control</b> (quản lý known error, đánh giá lại workaround, có thể khởi tạo change request để khắc phục).</li>
+ <li>Incident management tập trung khôi phục nhanh; problem management tập trung nguyên nhân. Hai thực hành liên kết chặt nhưng khác nhau.</li>
+</ul>
+<h3>Service request management</h3>
+<ul>
+ <li><b>Service request</b>: yêu cầu từ người dùng hoặc đại diện được uỷ quyền, khởi tạo một hành động dịch vụ đã được thoả thuận là phần bình thường của việc cung cấp dịch vụ (ví dụ: cấp quyền truy cập, đặt laptop, hỏi thông tin, đặt lại mật khẩu).</li>
+ <li>Quy trình nên được <b>chuẩn hoá và tự động hoá</b> tối đa. Một số yêu cầu cần phê duyệt theo chính sách; một số không cần.</li>
+ <li>Cần đặt kỳ vọng rõ về thời gian xử lý và cung cấp phản hồi cho người dùng. Service request <u>không phải</u> incident.</li>
+</ul>
+<h3>Service desk</h3>
+<ul>
+ <li>Điểm liên hệ duy nhất (single point of contact) với người dùng. Tiếp nhận incident và service request qua nhiều kênh: điện thoại, chat, cổng tự phục vụ, email, gặp trực tiếp.</li>
+ <li>Cần thấu hiểu và đồng cảm (empathy, emotional intelligence) với người dùng; hiểu rộng về tổ chức, quy trình kinh doanh và người dùng.</li>
+ <li>Có thể là <b>virtual service desk</b>: nhân viên ở nhiều địa điểm, làm việc như một nhóm nhờ công nghệ.</li>
+ <li>Không nhất thiết phải tự giải quyết mọi vấn đề kỹ thuật; nhiệm vụ chính là tiếp nhận, phân loại, điều phối, giao tiếp.</li>
+</ul>
+<h3>Service level management</h3>
+<ul>
+ <li><b>SLA</b>: thoả thuận văn bản giữa nhà cung cấp và khách hàng xác định dịch vụ cần có và mức dịch vụ kỳ vọng.</li>
+ <li>SLA cần <b>liên kết với dịch vụ cụ thể</b>, gắn với <b>kết quả kinh doanh</b> (không chỉ chỉ số vận hành), phản ánh thoả thuận của cả hai bên và viết đơn giản, dễ hiểu.</li>
+ <li><b>Watermelon effect</b>: chỉ số SLA “xanh” bên ngoài nhưng khách hàng “đỏ” bên trong vì đo sai thứ.</li>
+ <li>Cần gắn kết khách hàng (customer engagement: lắng nghe, phỏng vấn, khảo sát) và thu thập phản hồi; dùng cả chỉ số vận hành, chỉ số kinh doanh và khảo sát mức hài lòng.</li>
+</ul>
+<div class="tip"><b>Mẹo thi:</b> Nếu tình huống là “khôi phục nhanh” → Incident. “Tìm nguyên nhân, tránh lặp lại” → Problem. “Việc thường ngày, đã thoả thuận trước” → Service request. “Rủi ro thấp, làm thường xuyên” → Standard change.</div>`}
+];
+
+/* thẻ ghi nhớ: [lo, mặt trước, mặt sau] */
+const CARDS = [
+[1,"Service management","Tập hợp năng lực tổ chức chuyên biệt để tạo giá trị cho khách hàng dưới dạng dịch vụ."],
+[1,"Value","Lợi ích, tính hữu dụng và tầm quan trọng được cảm nhận của một thứ gì đó."],
+[1,"Organization","Một người hoặc nhóm người có chức năng, trách nhiệm, quyền hạn và quan hệ riêng để đạt mục tiêu."],
+[1,"Product","Một cấu hình các nguồn lực của tổ chức được thiết kế để mang lại giá trị cho người tiêu dùng."],
+[1,"Service","Phương tiện đồng tạo giá trị bằng cách tạo điều kiện cho kết quả khách hàng muốn đạt, mà khách hàng không phải tự quản lý chi phí và rủi ro cụ thể."],
+[1,"Service offering","Mô tả chính thức một hay nhiều dịch vụ cho nhóm người dùng mục tiêu. Gồm goods, access to resources, service actions."],
+[1,"Customer","Người xác định yêu cầu về dịch vụ và chịu trách nhiệm về kết quả của việc sử dụng dịch vụ."],
+[1,"User","Người sử dụng dịch vụ."],
+[1,"Sponsor","Người phê duyệt ngân sách cho việc sử dụng dịch vụ."],
+[1,"Output","Sản phẩm hữu hình hoặc vô hình của một hoạt động."],
+[1,"Outcome","Kết quả cho một bên liên quan, đạt được nhờ một hay nhiều output."],
+[1,"Risk","Sự kiện có thể gây hại, tổn thất, hoặc khiến việc đạt mục tiêu khó hơn."],
+[1,"Utility","Chức năng của sản phẩm/dịch vụ đáp ứng một nhu cầu cụ thể (dịch vụ làm được gì, fit for purpose)."],
+[1,"Warranty","Sự bảo đảm rằng sản phẩm/dịch vụ đáp ứng các yêu cầu đã thoả thuận (vận hành ra sao, fit for use)."],
+[1,"Service relationship","Hợp tác giữa nhà cung cấp và người tiêu dùng dịch vụ; gồm service provision, service consumption và service relationship management."],
+[2,"Focus on value","Mọi việc phải liên kết với giá trị cho bên liên quan. Hiểu giá trị theo góc nhìn người nhận; chú ý CX và UX."],
+[2,"Start where you are","Đánh giá hiện trạng bằng quan sát trực tiếp, tái sử dụng những gì có sẵn thay vì làm lại từ đầu."],
+[2,"Progress iteratively with feedback","Chia việc thành phần nhỏ, hoàn thành kịp thời; thu phản hồi trước, trong và sau mỗi vòng lặp."],
+[2,"Collaborate and promote visibility","Hợp tác đúng người, đúng vai trò; minh bạch công việc để ra quyết định tốt và có sự ủng hộ."],
+[2,"Think and work holistically","Không dịch vụ, thành phần nào đứng riêng; nhìn cả hệ thống và 4 khía cạnh."],
+[2,"Keep it simple and practical","Dùng số bước tối thiểu; loại bỏ những gì không tạo giá trị."],
+[2,"Optimize and automate","Tối ưu hoá trước, sau đó tự động hoá; giải phóng con người cho việc cần phán đoán."],
+[3,"Organizations and people","Cơ cấu, vai trò, trách nhiệm, văn hoá, năng lực, kỹ năng, lãnh đạo."],
+[3,"Information and technology","Thông tin, tri thức và công nghệ cần để quản lý dịch vụ."],
+[3,"Partners and suppliers","Quan hệ với tổ chức khác tham gia thiết kế, triển khai, hỗ trợ dịch vụ; hợp đồng, chiến lược nhà cung cấp."],
+[3,"Value streams and processes","Các hoạt động, luồng công việc, kiểm soát và thủ tục để đạt mục tiêu."],
+[3,"PESTLE","Political, Economic, Social, Technological, Legal, Environmental: yếu tố bên ngoài ảnh hưởng đến cả 4 khía cạnh."],
+[4,"Mục đích SVS","Bảo đảm tổ chức liên tục đồng tạo giá trị với mọi bên liên quan qua sử dụng và quản lý sản phẩm, dịch vụ."],
+[4,"5 thành phần SVS","Guiding principles, Governance, Service value chain, Practices, Continual improvement."],
+[4,"Đầu vào / đầu ra SVS","Đầu vào: Opportunity và Demand. Đầu ra: Value."],
+[4,"Governance","Phương tiện để định hướng và kiểm soát tổ chức."],
+[5,"Plan","Hiểu biết chung về tầm nhìn, hiện trạng và hướng cải tiến cho 4 khía cạnh, mọi sản phẩm và dịch vụ."],
+[5,"Improve","Cải tiến liên tục sản phẩm, dịch vụ, thực hành trong mọi hoạt động chuỗi giá trị và 4 khía cạnh."],
+[5,"Engage","Hiểu nhu cầu bên liên quan, minh bạch, gắn kết liên tục và quan hệ tốt."],
+[5,"Design & transition","Sản phẩm, dịch vụ liên tục đáp ứng kỳ vọng về chất lượng, chi phí, thời gian ra thị trường."],
+[5,"Obtain/build","Thành phần dịch vụ sẵn có khi và ở nơi cần, đúng đặc tả."],
+[5,"Deliver & support","Dịch vụ được cung cấp và hỗ trợ theo đặc tả và kỳ vọng bên liên quan."],
+[5,"Value stream","Chuỗi các bước tổ chức thực hiện để tạo và cung cấp sản phẩm, dịch vụ cho người tiêu dùng."],
+[6,"IT asset","Bất kỳ thành phần có giá trị tài chính nào góp phần cung cấp sản phẩm hoặc dịch vụ IT."],
+[6,"Event","Bất kỳ thay đổi trạng thái nào có ý nghĩa với việc quản lý dịch vụ hoặc CI."],
+[6,"Configuration item (CI)","Bất kỳ thành phần nào cần được quản lý để cung cấp dịch vụ IT."],
+[6,"Release","Một phiên bản của dịch vụ hoặc CI, hoặc tập hợp CI, được đưa vào sử dụng."],
+[6,"Deployment management","Di chuyển phần cứng, phần mềm, tài liệu, quy trình mới hoặc thay đổi vào môi trường live."],
+[6,"Relationship management","Thiết lập và nuôi dưỡng liên kết với các bên liên quan ở cấp chiến lược và chiến thuật."],
+[6,"Supplier management","Bảo đảm nhà cung cấp và hiệu quả của họ được quản lý phù hợp để cung cấp liền mạch sản phẩm, dịch vụ chất lượng."],
+[6,"Information security management","Bảo vệ thông tin tổ chức cần để vận hành kinh doanh."],
+[7,"Incident","Sự gián đoạn ngoài kế hoạch hoặc suy giảm chất lượng của dịch vụ."],
+[7,"Problem","Nguyên nhân hoặc nguyên nhân tiềm ẩn của một hay nhiều incident."],
+[7,"Known error","Problem đã được phân tích nhưng chưa được giải quyết."],
+[7,"Workaround","Giải pháp giảm hoặc loại bỏ tác động của incident/problem khi chưa có cách giải quyết triệt để."],
+[7,"3 giai đoạn Problem management","Problem identification → Problem control → Error control."],
+[7,"Change","Thêm, sửa đổi hoặc loại bỏ bất kỳ thứ gì có thể ảnh hưởng trực tiếp hay gián tiếp đến dịch vụ."],
+[7,"Standard change","Rủi ro thấp, đã hiểu rõ, đã được phê duyệt trước; không cần phê duyệt thêm."],
+[7,"Normal change","Cần được lên lịch, đánh giá và phê duyệt bởi change authority theo quy trình."],
+[7,"Emergency change","Phải thực hiện càng sớm càng tốt; có thể có change authority riêng, giảm tài liệu và kiểm thử."],
+[7,"Change authority","Người hoặc nhóm phê duyệt một thay đổi."],
+[7,"Service request","Yêu cầu từ người dùng khởi tạo một hành động dịch vụ đã thoả thuận là phần bình thường của việc cung cấp dịch vụ."],
+[7,"SLA","Thoả thuận văn bản giữa nhà cung cấp và khách hàng về dịch vụ cần có và mức dịch vụ kỳ vọng."],
+[7,"Swarming","Nhiều bên liên quan cùng xử lý một incident ngay từ đầu cho đến khi rõ ai phù hợp nhất để tiếp tục."],
+[7,"Continual improvement register (CIR)","Nơi ghi nhận, theo dõi và ưu tiên các ý tưởng cải tiến."],
+[7,"Mô hình Continual improvement","Vision? → Where are we now? → Where do we want to be? → How do we get there? → Take action → Did we get there? → Keep the momentum going?"]
+];
+
+/* câu hỏi: {m: LO, q, o:[4], a: chỉ số đúng, e: giải thích} */
+const QS = [
+/* ---- LO1 ---- */
+{m:1,q:"Định nghĩa nào mô tả đúng “value” (giá trị) theo ITIL 4?",o:["Một tập hợp năng lực tổ chức chuyên biệt để tạo lợi ích cho khách hàng","Lợi ích, tính hữu dụng và tầm quan trọng được cảm nhận của một thứ gì đó","Kết quả cho một bên liên quan đạt được nhờ một hay nhiều output","Sự bảo đảm rằng sản phẩm đáp ứng yêu cầu đã thoả thuận"],a:1,e:"Value = the perceived benefits, usefulness and importance of something. Đáp án A là service management, C là outcome, D là warranty."},
+{m:1,q:"“Utility” của một dịch vụ là gì?",o:["Sự bảo đảm rằng dịch vụ sẽ đáp ứng các yêu cầu đã thoả thuận","Chi phí mà người dùng không phải tự gánh chịu","Chức năng do sản phẩm hoặc dịch vụ cung cấp để đáp ứng một nhu cầu cụ thể","Mức độ khả dụng và năng lực của dịch vụ"],a:2,e:"Utility = the functionality offered by a product or service to meet a particular need (dịch vụ làm được gì). Khả dụng, năng lực thuộc warranty."},
+{m:1,q:"“Warranty” của một dịch vụ là gì?",o:["Sự bảo đảm rằng sản phẩm hoặc dịch vụ sẽ đáp ứng các yêu cầu đã thoả thuận","Chức năng đáp ứng một nhu cầu cụ thể","Thoả thuận văn bản giữa nhà cung cấp và khách hàng","Một phiên bản dịch vụ được đưa vào sử dụng"],a:0,e:"Warranty = assurance that a product or service will meet agreed requirements (vận hành ra sao). C là SLA, D là release."},
+{m:1,q:"Vai trò nào phê duyệt ngân sách cho việc sử dụng dịch vụ?",o:["Customer","User","Supplier","Sponsor"],a:3,e:"Sponsor authorizes budget. Customer xác định yêu cầu và chịu trách nhiệm về outcome; User sử dụng dịch vụ."},
+{m:1,q:"Vai trò nào xác định yêu cầu đối với dịch vụ và chịu trách nhiệm về kết quả của việc sử dụng dịch vụ?",o:["Sponsor","Customer","User","Service provider"],a:1,e:"Customer: the role that defines the requirements for a service and takes responsibility for the outcomes of service consumption."},
+{m:1,q:"“Outcome” được định nghĩa là gì?",o:["Sản phẩm hữu hình hoặc vô hình của một hoạt động","Một kết quả cho một bên liên quan, đạt được nhờ một hay nhiều output","Lợi ích được cảm nhận của một thứ gì đó","Một cấu hình nguồn lực tạo giá trị cho người tiêu dùng"],a:1,e:"Outcome = a result for a stakeholder enabled by one or more outputs. A là output."},
+{m:1,q:"Định nghĩa nào đúng với “service”?",o:["Một phương tiện đồng tạo giá trị bằng cách tạo điều kiện cho kết quả khách hàng muốn đạt, mà khách hàng không phải tự quản lý các chi phí và rủi ro cụ thể","Một tập hợp năng lực tổ chức chuyên biệt để tạo giá trị cho khách hàng","Một mô tả chính thức của một hoặc nhiều dịch vụ cho nhóm người dùng mục tiêu","Sự hợp tác giữa nhà cung cấp và người tiêu dùng dịch vụ"],a:0,e:"Đây là định nghĩa nguyên văn của service. B là service management, C là service offering, D là service relationship."},
+{m:1,q:"Một service offering có thể bao gồm những gì?",o:["Goods, access to resources, service actions","Utility, warranty, experience","Outputs, outcomes, costs","Products, services, practices"],a:0,e:"Service offering có thể gồm hàng hoá (goods, chuyển quyền sở hữu), quyền truy cập nguồn lực (access to resources) và hành động dịch vụ (service actions)."},
+{m:1,q:"Service relationship gồm những thành phần nào?",o:["Engage, design & transition, deliver & support","Service provision, service consumption, service relationship management","Customer, user, sponsor","Utility, warranty, cost"],a:1,e:"Một service relationship gồm cung cấp dịch vụ, tiêu dùng dịch vụ và quản lý quan hệ dịch vụ."},
+{m:1,q:"Định nghĩa nào mô tả “risk”?",o:["Một sự kiện có thể gây hại, tổn thất, hoặc làm việc đạt mục tiêu khó hơn","Một khoản tiền chi cho một hoạt động hoặc nguồn lực","Một sự gián đoạn ngoài kế hoạch của dịch vụ","Nguyên nhân tiềm ẩn của một hoặc nhiều incident"],a:0,e:"Risk = a possible event that could cause harm or loss, or make it more difficult to achieve objectives. C là incident, D là problem."},
+{m:1,q:"“Product” được định nghĩa là gì?",o:["Phương tiện tạo điều kiện cho kết quả khách hàng mong muốn","Một cấu hình các nguồn lực của tổ chức được thiết kế để mang lại giá trị cho người tiêu dùng","Mô tả chính thức của một hoặc nhiều dịch vụ","Bất kỳ thành phần có giá trị tài chính nào góp phần cung cấp dịch vụ IT"],a:1,e:"Product = a configuration of an organization's resources designed to offer value for a consumer. D là IT asset."},
+{m:1,q:"Phát biểu nào về cost (chi phí) trong quan hệ dịch vụ là ĐÚNG?",o:["Dịch vụ luôn loại bỏ mọi chi phí cho người tiêu dùng","Chi phí chỉ phát sinh ở phía nhà cung cấp","Dịch vụ có thể loại bỏ một số chi phí cho người tiêu dùng và đồng thời đưa thêm chi phí khác (như giá dịch vụ)","Chi phí không liên quan đến việc đánh giá giá trị"],a:2,e:"Người tiêu dùng đánh giá giá trị dựa trên chi phí được loại bỏ (costs removed) và chi phí đưa vào (costs imposed)."},
+{m:1,q:"Định nghĩa nào đúng với “service management”?",o:["Một tập hợp năng lực tổ chức chuyên biệt để tạo giá trị cho khách hàng dưới dạng dịch vụ","Một tập hợp các quy trình quản lý hạ tầng IT","Việc quản lý vòng đời tài sản IT","Một phương tiện định hướng và kiểm soát tổ chức"],a:0,e:"Service management = a set of specialized organizational capabilities for enabling value for customers in the form of services. D là governance."},
+/* ---- LO2 ---- */
+{m:2,q:"Một tổ chức muốn cải tiến quy trình hỗ trợ. Trước khi thiết kế quy trình mới, họ quan sát trực tiếp cách đội ngũ đang làm và giữ lại những phần đang hoạt động tốt. Nguyên tắc nào đang được áp dụng?",o:["Focus on value","Keep it simple and practical","Start where you are","Optimize and automate"],a:2,e:"Start where you are: đánh giá hiện trạng bằng quan sát trực tiếp và tái sử dụng những gì có sẵn thay vì làm lại từ đầu."},
+{m:2,q:"Nguyên tắc nào khuyến nghị tổ chức công việc thành các phần nhỏ, dễ quản lý, có thể thực hiện và hoàn thành kịp thời?",o:["Progress iteratively with feedback","Think and work holistically","Collaborate and promote visibility","Start where you are"],a:0,e:"Progress iteratively with feedback: chia việc thành phần nhỏ, mỗi vòng lặp đều thu phản hồi."},
+{m:2,q:"Nguyên tắc nào khuyến nghị loại bỏ các quy trình, hoạt động hoặc chỉ số không tạo ra giá trị?",o:["Optimize and automate","Keep it simple and practical","Focus on value","Think and work holistically"],a:1,e:"Keep it simple and practical: dùng số bước tối thiểu; bỏ những gì không đóng góp vào giá trị."},
+{m:2,q:"Nguyên tắc nào nhấn mạnh rằng không dịch vụ hoặc thành phần nào đứng riêng lẻ, và cần hiểu cách mọi phần của tổ chức phối hợp với nhau?",o:["Collaborate and promote visibility","Start where you are","Think and work holistically","Keep it simple and practical"],a:2,e:"Think and work holistically: xét toàn bộ hệ thống và cả 4 khía cạnh."},
+{m:2,q:"Theo nguyên tắc Optimize and automate, việc nào nên làm TRƯỚC khi tự động hoá?",o:["Mua công cụ tự động hoá phù hợp nhất","Tối ưu hoá và đơn giản hoá công việc ở mức hợp lý","Đào tạo nhân viên dùng công cụ","Ký thoả thuận với nhà cung cấp"],a:1,e:"Tối ưu trước, tự động sau. Tự động hoá một quy trình kém chỉ làm nó sai nhanh hơn."},
+{m:2,q:"Thiếu minh bạch về công việc dẫn đến quyết định kém, khó cải tiến và thiếu sự ủng hộ. Phát biểu này gắn với nguyên tắc nào?",o:["Collaborate and promote visibility","Focus on value","Progress iteratively with feedback","Think and work holistically"],a:0,e:"Collaborate and promote visibility: minh bạch giúp ra quyết định tốt hơn và tạo sự ủng hộ."},
+{m:2,q:"Nguyên tắc Focus on value khuyến nghị bước đầu tiên là gì?",o:["Tự động hoá các hoạt động lặp lại","Xác định ai là người được phục vụ (người tiêu dùng dịch vụ)","Đánh giá năng lực hiện có","Chia công việc thành các vòng lặp"],a:1,e:"Để tập trung vào giá trị, trước hết phải biết ai là người nhận giá trị, rồi hiểu giá trị từ góc nhìn của họ."},
+{m:2,q:"Theo nguyên tắc Start where you are, đo lường nên được sử dụng như thế nào?",o:["Thay thế hoàn toàn việc quan sát trực tiếp","Hỗ trợ phân tích những gì đã quan sát được, không thay thế việc quan sát","Chỉ dùng sau khi hoàn thành cải tiến","Chỉ dùng cho báo cáo lên ban lãnh đạo"],a:1,e:"Measurement should support the analysis of what has been observed, rather than replace it."},
+{m:2,q:"Phát biểu nào về các nguyên tắc chỉ dẫn là ĐÚNG?",o:["Mỗi lần chỉ nên áp dụng một nguyên tắc","Các nguyên tắc chỉ áp dụng cho dự án cải tiến lớn","Các nguyên tắc tương tác và phụ thuộc lẫn nhau; nên cân nhắc tất cả và áp dụng những nguyên tắc phù hợp","Các nguyên tắc chỉ áp dụng cho đội IT"],a:2,e:"Các nguyên tắc không độc lập; tổ chức nên xem xét tất cả và áp dụng tuỳ tình huống."},
+{m:2,q:"Một đội phát hành tính năng mới theo từng đợt nhỏ, mỗi đợt đều lấy ý kiến người dùng và điều chỉnh hướng đi. Nguyên tắc nào được áp dụng rõ nhất?",o:["Keep it simple and practical","Progress iteratively with feedback","Start where you are","Optimize and automate"],a:1,e:"Làm theo vòng lặp nhỏ và dùng phản hồi để điều chỉnh là Progress iteratively with feedback."},
+{m:2,q:"Khi áp dụng Focus on value, tổ chức cần chú ý điều gì ngoài giá trị cho khách hàng?",o:["Chỉ chi phí của nhà cung cấp","Trải nghiệm khách hàng (CX) và trải nghiệm người dùng (UX)","Số lượng quy trình được ghi nhận","Số lượng công cụ tự động hoá"],a:1,e:"Focus on value bao gồm việc hiểu và quản lý trải nghiệm khách hàng và người dùng."},
+{m:2,q:"Phát biểu nào thể hiện đúng nguyên tắc Collaborate and promote visibility?",o:["Chỉ chia sẻ thông tin với quản lý cấp cao","Đưa đúng người vào đúng vai trò và giao tiếp theo cách người nghe tiếp nhận được","Hạn chế số người tham gia để quyết định nhanh hơn","Tránh chia sẻ tiến độ cho đến khi hoàn thành"],a:1,e:"Hợp tác hiệu quả cần đúng người, đúng vai trò, và truyền thông phù hợp với người nghe."},
+/* ---- LO3 ---- */
+{m:3,q:"Khía cạnh nào bao gồm các luồng công việc, kiểm soát và thủ tục cần thiết để đạt mục tiêu?",o:["Organizations and people","Information and technology","Partners and suppliers","Value streams and processes"],a:3,e:"Value streams and processes: cách các hoạt động, luồng công việc, kiểm soát, thủ tục phối hợp để tạo giá trị."},
+{m:3,q:"Văn hoá tổ chức, vai trò, trách nhiệm và năng lực nhân viên thuộc khía cạnh nào?",o:["Organizations and people","Value streams and processes","Partners and suppliers","Information and technology"],a:0,e:"Organizations and people gồm cơ cấu, vai trò, văn hoá, năng lực, phong cách lãnh đạo."},
+{m:3,q:"Hợp đồng và chiến lược làm việc với các tổ chức khác thuộc khía cạnh nào?",o:["Value streams and processes","Partners and suppliers","Organizations and people","Information and technology"],a:1,e:"Partners and suppliers: quan hệ với tổ chức khác tham gia thiết kế, triển khai, cung cấp, hỗ trợ dịch vụ."},
+{m:3,q:"Mục đích của 4 khía cạnh quản lý dịch vụ là gì?",o:["Xác định 6 hoạt động của chuỗi giá trị","Bảo đảm cách tiếp cận toàn diện đối với quản lý dịch vụ","Mô tả cấu trúc của SLA","Phân loại các incident"],a:1,e:"4 khía cạnh giúp tổ chức tiếp cận quản lý dịch vụ một cách toàn diện (holistic)."},
+{m:3,q:"Các yếu tố bên ngoài (PESTLE) ảnh hưởng đến khía cạnh nào?",o:["Chỉ Partners and suppliers","Chỉ Information and technology","Cả 4 khía cạnh","Chỉ Organizations and people"],a:2,e:"Yếu tố chính trị, kinh tế, xã hội, công nghệ, pháp lý, môi trường ràng buộc hoặc ảnh hưởng đến cả 4 khía cạnh."},
+{m:3,q:"Một tổ chức đánh giá việc đưa AI và cơ sở tri thức vào hỗ trợ người dùng, đồng thời xem xét yêu cầu bảo vệ dữ liệu. Đây là cân nhắc chủ yếu thuộc khía cạnh nào?",o:["Information and technology","Partners and suppliers","Value streams and processes","Organizations and people"],a:0,e:"Thông tin, tri thức, công nghệ và các yêu cầu về dữ liệu thuộc Information and technology."},
+/* ---- LO4 ---- */
+{m:4,q:"Đầu vào của hệ thống giá trị dịch vụ (SVS) là gì?",o:["Opportunity và demand","Incident và problem","Product và service","Value và outcome"],a:0,e:"SVS nhận đầu vào là cơ hội (opportunity) và nhu cầu (demand), tạo đầu ra là giá trị (value)."},
+{m:4,q:"Mục đích của hệ thống giá trị dịch vụ (SVS) là gì?",o:["Bảo đảm tổ chức liên tục đồng tạo giá trị với mọi bên liên quan thông qua việc sử dụng và quản lý sản phẩm, dịch vụ","Bảo đảm mọi thay đổi được đánh giá rủi ro","Định nghĩa mức dịch vụ dựa trên nhu cầu kinh doanh","Quản lý vòng đời tài sản IT"],a:0,e:"Đây là mục đích nguyên văn của SVS."},
+{m:4,q:"Thành phần nào KHÔNG thuộc hệ thống giá trị dịch vụ?",o:["Governance","Service value chain","Service level agreement","Continual improvement"],a:2,e:"5 thành phần SVS: guiding principles, governance, service value chain, practices, continual improvement. SLA không phải thành phần."},
+{m:4,q:"Trong SVS, “governance” là gì?",o:["Phương tiện để định hướng và kiểm soát tổ chức","Tập hợp nguồn lực để thực hiện công việc","Nhu cầu về sản phẩm, dịch vụ","Các quy trình quản lý thay đổi"],a:0,e:"Governance = the means by which an organization is directed and controlled."},
+{m:4,q:"Vấn đề “silo” mà SVS giúp giải quyết là gì?",o:["Thiếu công cụ tự động hoá","Các bộ phận làm việc tách rời, thiếu phối hợp, khó thay đổi","Quá nhiều nhà cung cấp","Thiếu ngân sách cho IT"],a:1,e:"SVS mô tả cách mọi thành phần phối hợp như một hệ thống, giúp phá vỡ silo và tăng linh hoạt."},
+/* ---- LO5 ---- */
+{m:5,q:"Hoạt động nào của chuỗi giá trị bảo đảm hiểu biết chung về tầm nhìn, hiện trạng và hướng cải tiến cho cả 4 khía cạnh và mọi sản phẩm, dịch vụ?",o:["Improve","Engage","Plan","Design & transition"],a:2,e:"Plan: shared understanding of the vision, current status and improvement direction."},
+{m:5,q:"Hoạt động nào nhằm hiểu rõ nhu cầu của bên liên quan, minh bạch, gắn kết liên tục và duy trì quan hệ tốt?",o:["Engage","Plan","Deliver & support","Improve"],a:0,e:"Engage: provide a good understanding of stakeholder needs, transparency, continual engagement and good relationships."},
+{m:5,q:"Hoạt động nào bảo đảm sản phẩm, dịch vụ liên tục đáp ứng kỳ vọng về chất lượng, chi phí và thời gian đưa ra thị trường?",o:["Obtain/build","Design & transition","Deliver & support","Plan"],a:1,e:"Design & transition: quality, costs and time to market."},
+{m:5,q:"Hoạt động nào bảo đảm các thành phần dịch vụ sẵn có khi và ở nơi cần, đúng đặc tả đã thoả thuận?",o:["Deliver & support","Engage","Obtain/build","Improve"],a:2,e:"Obtain/build: service components are available when and where they are needed, and meet agreed specifications."},
+{m:5,q:"Hoạt động nào bảo đảm dịch vụ được cung cấp và hỗ trợ theo đặc tả và kỳ vọng của bên liên quan?",o:["Deliver & support","Design & transition","Obtain/build","Engage"],a:0,e:"Deliver & support: services are delivered and supported according to agreed specifications and stakeholders' expectations."},
+{m:5,q:"“Value stream” là gì?",o:["Một chuỗi các bước tổ chức thực hiện để tạo và cung cấp sản phẩm, dịch vụ cho người tiêu dùng","Danh sách các thực hành ITIL","Một thoả thuận giữa nhà cung cấp và khách hàng","Dòng tiền của tổ chức"],a:0,e:"Value stream = a series of steps an organization undertakes to create and deliver products and services to consumers."},
+{m:5,q:"Phát biểu nào về chuỗi giá trị dịch vụ là ĐÚNG?",o:["Mỗi hoạt động chỉ dùng đúng một thực hành","Các hoạt động phải luôn được thực hiện theo thứ tự cố định","Các hoạt động được kết hợp theo nhiều cách thành value stream và mỗi hoạt động dùng nhiều thực hành khác nhau","Chuỗi giá trị chỉ dùng cho dịch vụ IT nội bộ"],a:2,e:"Chuỗi giá trị linh hoạt: hoạt động kết hợp thành nhiều value stream, dùng nhiều thực hành."},
+{m:5,q:"Hoạt động nào bảo đảm cải tiến liên tục sản phẩm, dịch vụ và thực hành trong mọi hoạt động của chuỗi giá trị?",o:["Plan","Improve","Engage","Obtain/build"],a:1,e:"Improve: continual improvement of products, services and practices across all value chain activities and the four dimensions."},
+/* ---- LO6 ---- */
+{m:6,q:"Mục đích của thực hành “information security management” là gì?",o:["Bảo vệ thông tin tổ chức cần để vận hành kinh doanh","Bảo đảm thông tin cấu hình chính xác và sẵn có","Quan sát có hệ thống các dịch vụ và thành phần","Quản lý vòng đời tài sản IT"],a:0,e:"Information security management: to protect the information needed by the organization to conduct its business."},
+{m:6,q:"Mục đích của thực hành “relationship management” là gì?",o:["Bảo đảm nhà cung cấp được quản lý phù hợp","Thiết lập và nuôi dưỡng liên kết giữa tổ chức và các bên liên quan ở cấp chiến lược và chiến thuật","Đặt mục tiêu mức dịch vụ dựa trên nhu cầu kinh doanh","Tiếp nhận nhu cầu giải quyết incident và service request"],a:1,e:"Relationship management: establish and nurture the links between the organization and its stakeholders at strategic and tactical levels."},
+{m:6,q:"Mục đích của thực hành “supplier management” là gì?",o:["Bảo đảm nhà cung cấp và hiệu quả của họ được quản lý phù hợp để hỗ trợ cung cấp liền mạch sản phẩm, dịch vụ chất lượng","Thiết lập quan hệ với bên liên quan ở cấp chiến lược","Lập kế hoạch vòng đời tài sản IT","Đưa dịch vụ mới vào sử dụng"],a:0,e:"Supplier management: ensure the organization's suppliers and their performances are managed appropriately to support the seamless provision of quality products and services."},
+{m:6,q:"Mục đích của thực hành “IT asset management” là gì?",o:["Bảo đảm thông tin chính xác về cấu hình dịch vụ","Lập kế hoạch và quản lý toàn bộ vòng đời tài sản IT để tối đa giá trị, kiểm soát chi phí, quản lý rủi ro","Di chuyển phần cứng, phần mềm vào môi trường live","Bảo vệ thông tin của tổ chức"],a:1,e:"IT asset management quản lý full lifecycle của IT assets: maximize value, control costs, manage risks, support decision-making, meet regulatory and contractual requirements."},
+{m:6,q:"Định nghĩa nào đúng với “IT asset”?",o:["Bất kỳ thành phần nào cần được quản lý để cung cấp dịch vụ IT","Bất kỳ thành phần có giá trị tài chính nào góp phần cung cấp sản phẩm hoặc dịch vụ IT","Một phiên bản dịch vụ được đưa vào sử dụng","Bất kỳ thay đổi trạng thái nào có ý nghĩa với quản lý dịch vụ"],a:1,e:"IT asset = any financially valuable component that can contribute to the delivery of an IT product or service. A là CI."},
+{m:6,q:"Mục đích của thực hành “monitoring and event management” là gì?",o:["Giảm thiểu tác động của incident","Quan sát có hệ thống dịch vụ và thành phần dịch vụ, ghi nhận và báo cáo các thay đổi trạng thái được xác định là event","Bảo đảm thông tin cấu hình sẵn có","Tối đa số thay đổi thành công"],a:1,e:"Monitoring and event management: systematically observe services and service components, and record and report selected changes of state identified as events."},
+{m:6,q:"Định nghĩa nào đúng với “event”?",o:["Sự gián đoạn ngoài kế hoạch của dịch vụ","Bất kỳ thay đổi trạng thái nào có ý nghĩa với việc quản lý dịch vụ hoặc configuration item","Nguyên nhân tiềm ẩn của incident","Một yêu cầu từ người dùng"],a:1,e:"Event = any change of state that has significance for the management of a service or other configuration item. Không phải event nào cũng là incident."},
+{m:6,q:"Mục đích của thực hành “release management” là gì?",o:["Di chuyển thành phần mới vào môi trường live","Đưa dịch vụ và tính năng mới hoặc thay đổi vào sử dụng","Phê duyệt các thay đổi","Quản lý thông tin cấu hình"],a:1,e:"Release management: make new and changed services and features available for use. A là deployment management."},
+{m:6,q:"Mục đích của thực hành “deployment management” là gì?",o:["Đưa tính năng mới vào sử dụng cho người dùng","Di chuyển phần cứng, phần mềm, tài liệu, quy trình mới hoặc thay đổi vào môi trường live","Đánh giá rủi ro của thay đổi","Quan sát các thành phần dịch vụ"],a:1,e:"Deployment management: move new or changed hardware, software, documentation, processes, or any other component to live environments."},
+{m:6,q:"Mục đích của thực hành “service configuration management” là gì?",o:["Bảo đảm thông tin chính xác, tin cậy về cấu hình dịch vụ và các CI hỗ trợ luôn sẵn có khi và ở nơi cần","Quản lý giá trị tài chính của tài sản IT","Đưa dịch vụ mới vào sử dụng","Bảo vệ thông tin của tổ chức"],a:0,e:"Service configuration management: ensure accurate and reliable information about the configuration of services, and the CIs that support them, is available when and where it is needed."},
+{m:6,q:"Định nghĩa nào đúng với “configuration item” (CI)?",o:["Bất kỳ thành phần nào cần được quản lý để cung cấp dịch vụ IT","Bất kỳ thành phần có giá trị tài chính nào","Một tập hợp tính năng được phát hành","Một bản ghi trong change schedule"],a:0,e:"CI = any component that needs to be managed in order to deliver an IT service."},
+{m:6,q:"Mục đích của thực hành “continual improvement” là gì?",o:["Gắn thực hành và dịch vụ của tổ chức với nhu cầu kinh doanh luôn thay đổi thông qua cải tiến liên tục","Giảm thiểu tác động tiêu cực của incident","Đặt mục tiêu mức dịch vụ","Tối đa số thay đổi thành công"],a:0,e:"Continual improvement: align the organization's practices and services with changing business needs through the ongoing improvement of products, services, practices..."},
+{m:6,q:"Thực hành nào có mục đích tiếp nhận nhu cầu giải quyết incident và service request, đồng thời là điểm liên hệ duy nhất với người dùng?",o:["Incident management","Service request management","Service desk","Relationship management"],a:2,e:"Service desk: capture demand for incident resolution and service requests; the entry point and single point of contact for all users."},
+{m:6,q:"Thực hành nào có mục đích tối đa hoá số lượng thay đổi thành công bằng cách đánh giá rủi ro, phê duyệt thay đổi và quản lý change schedule?",o:["Release management","Deployment management","Change enablement","Service configuration management"],a:2,e:"Change enablement: maximize the number of successful service and product changes by ensuring risks are properly assessed, authorizing changes to proceed and managing the change schedule."},
+{m:6,q:"Thực hành nào có mục đích đặt mục tiêu mức dịch vụ rõ ràng dựa trên nhu cầu kinh doanh và bảo đảm dịch vụ được đánh giá, giám sát theo các mục tiêu đó?",o:["Relationship management","Service level management","Supplier management","Continual improvement"],a:1,e:"Service level management: set clear business-based targets for service levels, and ensure delivery is properly assessed, monitored and managed against these targets."},
+/* ---- LO7 ---- */
+{m:7,q:"Định nghĩa nào đúng với “change”?",o:["Việc thêm, sửa đổi hoặc loại bỏ bất kỳ thứ gì có thể ảnh hưởng trực tiếp hay gián tiếp đến dịch vụ","Việc đưa tính năng mới vào sử dụng","Việc di chuyển phần mềm vào môi trường live","Một yêu cầu từ người dùng về hành động dịch vụ"],a:0,e:"Change = the addition, modification, or removal of anything that could have a direct or indirect effect on services."},
+{m:7,q:"Phát biểu nào về standard change là ĐÚNG?",o:["Luôn cần change authority phê duyệt mỗi lần thực hiện","Rủi ro thấp, đã hiểu rõ và được phê duyệt trước; có thể thực hiện mà không cần phê duyệt thêm","Chỉ dùng để xử lý incident nghiêm trọng","Phải được Change Advisory Board xem xét hàng tuần"],a:1,e:"Standard changes are low-risk, pre-authorized changes that are well understood and fully documented, and can be implemented without needing additional authorization."},
+{m:7,q:"Với standard change, việc đánh giá rủi ro được thực hiện khi nào?",o:["Mỗi lần thực hiện thay đổi","Khi quy trình cho loại thay đổi đó được tạo ra","Sau khi triển khai xong","Không bao giờ cần đánh giá rủi ro"],a:1,e:"Rủi ro của standard change được đánh giá khi xây dựng quy trình (procedure), không phải mỗi lần thực hiện."},
+{m:7,q:"Một bản vá bảo mật cần được áp dụng ngay để ngăn một lỗ hổng đang bị khai thác. Đây là loại change nào?",o:["Standard change","Normal change","Emergency change","Service request"],a:2,e:"Emergency change phải thực hiện càng sớm càng tốt, ví dụ để giải quyết incident hoặc vá bảo mật."},
+{m:7,q:"Phát biểu nào về emergency change là ĐÚNG?",o:["Không cần đánh giá hay phê duyệt","Có thể có change authority riêng và giảm bớt tài liệu, kiểm thử so với normal change","Phải chờ lịch họp phê duyệt định kỳ","Luôn được phê duyệt trước như standard change"],a:1,e:"Emergency change vẫn cần đánh giá và phê duyệt, nhưng có thể dùng change authority riêng và giảm tài liệu để không trì hoãn."},
+{m:7,q:"“Change authority” là gì?",o:["Người hoặc nhóm phê duyệt một thay đổi","Người yêu cầu thay đổi","Công cụ quản lý change schedule","Nhóm triển khai thay đổi vào môi trường live"],a:0,e:"Change authority = the person or group who authorizes a change. Cần chọn change authority phù hợp với từng loại change."},
+{m:7,q:"Change schedule được dùng để làm gì?",o:["Ghi nhận mọi incident đang mở","Lập kế hoạch thay đổi, hỗ trợ truyền thông, tránh xung đột và phân bổ nguồn lực","Ghi nhận tài sản IT","Theo dõi mức hài lòng của khách hàng"],a:1,e:"Change schedule giúp lên kế hoạch, truyền thông, tránh xung đột, phân bổ nguồn lực; cũng cung cấp thông tin cho incident, problem management và cải tiến."},
+{m:7,q:"Với normal change, ai phê duyệt?",o:["Luôn là ban giám đốc","Change authority phù hợp với loại và mức rủi ro của thay đổi; có thể từ một người đến cấp quản lý cao","Service desk","Không cần phê duyệt"],a:1,e:"Normal change được phê duyệt bởi change authority tương ứng; change rủi ro thấp có thể do một người duyệt, change lớn có thể cần cấp cao."},
+{m:7,q:"Định nghĩa nào đúng với “incident”?",o:["Nguyên nhân của một hoặc nhiều sự cố","Sự gián đoạn ngoài kế hoạch của dịch vụ hoặc sự suy giảm chất lượng dịch vụ","Bất kỳ thay đổi trạng thái nào có ý nghĩa với dịch vụ","Một yêu cầu của người dùng"],a:1,e:"Incident = an unplanned interruption to a service or reduction in the quality of a service."},
+{m:7,q:"Incident nên được ưu tiên dựa trên yếu tố nào?",o:["Thứ tự được ghi nhận","Chức danh của người báo","Phân loại đã thống nhất dựa trên tác động (impact) và độ khẩn cấp (urgency)","Thời gian cần để giải quyết"],a:2,e:"Incidents are prioritized based on an agreed classification to ensure incidents with the highest business impact are resolved first."},
+{m:7,q:"“Swarming” trong incident management là gì?",o:["Chuyển incident qua nhiều cấp hỗ trợ lần lượt","Nhiều bên liên quan cùng làm việc trên incident ngay từ đầu cho đến khi rõ ai phù hợp nhất để tiếp tục","Tự động đóng incident sau thời gian chờ","Ghi nhận nhiều incident vào một bản ghi"],a:1,e:"Swarming giúp giải quyết incident phức tạp nhanh hơn nhờ hợp tác thay vì chuyển qua lại."},
+{m:7,q:"Phát biểu nào về incident management là ĐÚNG?",o:["Mọi incident đều phải do service desk giải quyết","Người dùng có thể tự giải quyết một số incident nhờ công cụ tự phục vụ","Incident nghiêm trọng xử lý giống hệt incident thông thường","Incident management chịu trách nhiệm tìm nguyên nhân gốc"],a:1,e:"Incident có thể do user (self-help), service desk, nhóm hỗ trợ, nhà cung cấp giải quyết. Major incident có quy trình riêng. Tìm nguyên nhân là việc của problem management."},
+{m:7,q:"Định nghĩa nào đúng với “problem”?",o:["Một incident lặp lại nhiều lần","Nguyên nhân hoặc nguyên nhân tiềm ẩn của một hoặc nhiều incident","Một problem đã được phân tích nhưng chưa giải quyết","Một sự gián đoạn ngoài kế hoạch"],a:1,e:"Problem = a cause, or potential cause, of one or more incidents. C là known error."},
+{m:7,q:"Định nghĩa nào đúng với “known error”?",o:["Một problem đã được phân tích nhưng chưa được giải quyết","Một incident đã có workaround","Một lỗi đã được sửa","Một change thất bại"],a:0,e:"Known error = a problem that has been analysed but has not been resolved."},
+{m:7,q:"Định nghĩa nào đúng với “workaround”?",o:["Giải pháp loại bỏ vĩnh viễn nguyên nhân gốc","Giải pháp làm giảm hoặc loại bỏ tác động của incident hoặc problem khi chưa có cách giải quyết triệt để","Một loại standard change","Quy trình leo thang incident"],a:1,e:"Workaround = a solution that reduces or eliminates the impact of an incident or problem for which a full resolution is not yet available."},
+{m:7,q:"Ba giai đoạn của problem management theo đúng thứ tự là gì?",o:["Problem control → Problem identification → Error control","Problem identification → Problem control → Error control","Error control → Problem control → Problem identification","Problem logging → Problem diagnosis → Problem closure"],a:1,e:"Problem identification → Problem control → Error control."},
+{m:7,q:"Hoạt động nào thuộc giai đoạn “problem identification”?",o:["Phân tích xu hướng incident và phát hiện incident lặp lại","Đánh giá lại hiệu quả của workaround","Khởi tạo change request để sửa known error","Đóng known error"],a:0,e:"Problem identification gồm phân tích xu hướng, phát hiện incident lặp lại, thông tin từ nhà cung cấp, đội phát triển…"},
+{m:7,q:"Trong problem management, việc khởi tạo change request để khắc phục một known error thuộc giai đoạn nào?",o:["Problem identification","Problem control","Error control","Incident control"],a:2,e:"Error control quản lý known error và có thể khởi tạo change request khi giải pháp xứng đáng triển khai."},
+{m:7,q:"Phát biểu nào về mối quan hệ giữa incident management và problem management là ĐÚNG?",o:["Chúng là một thực hành duy nhất","Incident management tập trung khôi phục dịch vụ nhanh; problem management tập trung xác định và quản lý nguyên nhân","Problem management phải hoàn tất trước khi đóng incident","Incident management chịu trách nhiệm tạo known error"],a:1,e:"Hai thực hành liên kết nhưng mục tiêu khác: khôi phục nhanh với tìm nguyên nhân."},
+{m:7,q:"Định nghĩa nào đúng với “service request”?",o:["Yêu cầu từ người dùng hoặc đại diện được uỷ quyền, khởi tạo một hành động dịch vụ đã được thoả thuận là phần bình thường của việc cung cấp dịch vụ","Một sự gián đoạn ngoài kế hoạch","Một yêu cầu thay đổi dịch vụ","Một khiếu nại về chất lượng dịch vụ"],a:0,e:"Service request = a request from a user or a user's authorized representative that initiates a service action which has been agreed as a normal part of service delivery."},
+{m:7,q:"Trường hợp nào nên được xử lý như một service request?",o:["Máy chủ email ngừng hoạt động","Người dùng cần cấp quyền truy cập vào thư mục dùng chung theo quy trình đã thoả thuận","Ứng dụng chạy chậm bất thường","Ổ cứng máy chủ báo lỗi"],a:1,e:"Cấp quyền truy cập theo quy trình định sẵn là service request. Các tình huống còn lại là incident hoặc event."},
+{m:7,q:"Phát biểu nào về service request management là ĐÚNG?",o:["Mọi service request đều phải qua change authority","Quy trình xử lý service request nên được chuẩn hoá và tự động hoá tối đa","Service request là một loại incident","Không cần đặt kỳ vọng về thời gian xử lý"],a:1,e:"Service request nên được chuẩn hoá, tự động hoá; một số cần phê duyệt theo chính sách; cần đặt kỳ vọng rõ về thời gian."},
+{m:7,q:"Điều gì là quan trọng nhất đối với nhân viên service desk?",o:["Kỹ năng kỹ thuật chuyên sâu để tự giải quyết mọi vấn đề","Thấu hiểu, đồng cảm với người dùng và hiểu rộng về tổ chức, quy trình kinh doanh","Khả năng lập trình","Kiến thức về hợp đồng nhà cung cấp"],a:1,e:"Service desk cần empathy, emotional intelligence và hiểu bối cảnh kinh doanh; không nhất thiết tự giải quyết mọi vấn đề kỹ thuật."},
+{m:7,q:"“Virtual service desk” là gì?",o:["Service desk chỉ dùng chatbot","Nhân viên service desk làm việc ở nhiều địa điểm khác nhau nhưng phối hợp như một nhóm nhờ công nghệ","Service desk thuê ngoài","Cổng tự phục vụ thay thế hoàn toàn nhân viên"],a:1,e:"Virtual service desk cho phép nhân viên ở nhiều nơi làm việc như một service desk duy nhất."},
+{m:7,q:"Phát biểu nào về service desk là ĐÚNG?",o:["Service desk chỉ tiếp nhận cuộc gọi điện thoại","Service desk là điểm liên hệ duy nhất, tiếp nhận yêu cầu qua nhiều kênh như điện thoại, chat, cổng tự phục vụ, email","Service desk chịu trách nhiệm phê duyệt mọi change","Service desk phải giải quyết mọi incident ngay lần liên hệ đầu"],a:1,e:"Service desk có nhiều kênh tiếp nhận và là single point of contact cho người dùng."},
+{m:7,q:"Yêu cầu nào là quan trọng đối với SLA theo ITIL 4?",o:["Chỉ dùng chỉ số kỹ thuật như thời gian hoạt động máy chủ","SLA phải liên kết với dịch vụ cụ thể, gắn với kết quả kinh doanh và được viết đơn giản, dễ hiểu","SLA nên dài và chi tiết về pháp lý","SLA do nhà cung cấp tự quyết định"],a:1,e:"SLA cần gắn với dịch vụ, phản ánh outcome kinh doanh, thoả thuận giữa hai bên, viết đơn giản."},
+{m:7,q:"“Watermelon effect” trong service level management mô tả điều gì?",o:["Dịch vụ có quá nhiều chỉ số","Các chỉ số SLA cho thấy đạt (xanh) nhưng khách hàng vẫn không hài lòng (đỏ) vì đo không đúng điều quan trọng","Khách hàng hài lòng dù chỉ số không đạt","SLA thay đổi theo mùa"],a:1,e:"Watermelon: xanh bên ngoài, đỏ bên trong. Cần đo kết quả kinh doanh và trải nghiệm khách hàng."},
+{m:7,q:"Hoạt động nào giúp service level management hiểu rõ nhu cầu khách hàng?",o:["Customer engagement: lắng nghe, phỏng vấn, thảo luận với khách hàng và thu thập phản hồi","Chỉ đọc báo cáo giám sát hệ thống","Ký thêm hợp đồng với nhà cung cấp","Tăng số kênh liên hệ service desk"],a:0,e:"SLM cần gắn kết khách hàng, lắng nghe và thu thập phản hồi để đặt mục tiêu dịch vụ đúng."},
+{m:7,q:"Bước đầu tiên của mô hình continual improvement là gì?",o:["Where are we now?","What is the vision?","Take action","How do we get there?"],a:1,e:"Mô hình bắt đầu bằng What is the vision? rồi mới đến Where are we now?"},
+{m:7,q:"Bước nào trong mô hình continual improvement đánh giá hiện trạng (baseline)?",o:["What is the vision?","Where are we now?","Where do we want to be?","Did we get there?"],a:1,e:"Where are we now? đánh giá hiện trạng làm cơ sở so sánh."},
+{m:7,q:"Bước nào trong mô hình continual improvement kiểm tra xem mục tiêu cải tiến đã đạt được hay chưa?",o:["Take action","How do we keep the momentum going?","Did we get there?","Where do we want to be?"],a:2,e:"Did we get there? đo lường kết quả so với mục tiêu đã đặt."},
+{m:7,q:"“Continual improvement register” (CIR) được dùng để làm gì?",o:["Ghi nhận các thay đổi đã phê duyệt","Ghi nhận, theo dõi và ưu tiên các ý tưởng cải tiến","Lưu thông tin cấu hình","Ghi nhận incident nghiêm trọng"],a:1,e:"CIR là nơi ghi nhận và quản lý ý tưởng cải tiến; có thể có nhiều CIR trong tổ chức."},
+{m:7,q:"Ai chịu trách nhiệm cho cải tiến liên tục?",o:["Chỉ đội cải tiến chuyên trách","Chỉ ban lãnh đạo","Tất cả mọi người trong tổ chức","Chỉ nhà cung cấp bên ngoài"],a:2,e:"Continual improvement là trách nhiệm của mọi người, dù có thể có đội ngũ dẫn dắt."},
+{m:7,q:"Phát biểu nào về problem control là ĐÚNG?",o:["Bao gồm phân tích problem và ghi nhận workaround, known error","Chỉ diễn ra sau khi mọi incident liên quan đã đóng","Bao gồm việc phê duyệt change","Là giai đoạn đầu tiên của problem management"],a:0,e:"Problem control: phân tích problem, ghi nhận workaround và known error."},
+/* ---- LO7: CÂU HỎI TÌNH HUỐNG (t:1) ---- */
+/* Continual improvement */
+{m:7,t:1,q:"Đội service desk đã triển khai quy trình phân loại mới để giảm thời gian xử lý. Ba tháng sau, trưởng nhóm so sánh số liệu thực tế với mục tiêu “giảm 20% thời gian xử lý” đã đặt ra trước đó.\nĐội đang ở bước nào của mô hình continual improvement?",o:["Where are we now?","Take action","Did we get there?","How do we keep the momentum going?"],a:2,e:"So sánh kết quả thực tế với mục tiêu đã đặt là bước Did we get there?. Where are we now? là đo hiện trạng TRƯỚC khi cải tiến."},
+{m:7,t:1,q:"Sau khi cải tiến đạt mục tiêu, quản lý tổ chức buổi chia sẻ thành công, cập nhật tài liệu hướng dẫn và đưa cách làm mới vào chương trình đào tạo để nhân viên không quay lại thói quen cũ.\nĐây là bước nào của mô hình continual improvement?",o:["How do we keep the momentum going?","Did we get there?","What is the vision?","How do we get there?"],a:0,e:"Ghi nhận thành công, củng cố hành vi mới và duy trì động lực là bước cuối: How do we keep the momentum going?"},
+{m:7,t:1,q:"Một nhân viên hỗ trợ nghĩ ra cách tự động gửi thông báo trạng thái cho người dùng. Ý tưởng hay nhưng đội đang bận các việc ưu tiên hơn.\nNhân viên nên làm gì với ý tưởng này?",o:["Tự triển khai ngay vào môi trường live","Ghi vào continual improvement register (CIR) để được đánh giá và ưu tiên","Gửi email cho nhà cung cấp phần mềm","Chờ đến kỳ đánh giá năm sau"],a:1,e:"CIR là nơi ghi nhận, theo dõi và ưu tiên ý tưởng cải tiến, để ý tưởng không bị thất lạc khi chưa thực hiện ngay được."},
+{m:7,t:1,q:"Sau khi đo hiện trạng, đội cải tiến đặt mục tiêu cụ thể: “Tỷ lệ giải quyết ngay lần liên hệ đầu tiên đạt 70% trong 6 tháng”, kèm các chỉ số đo lường.\nĐội đang ở bước nào?",o:["Where are we now?","Where do we want to be?","Take action","Did we get there?"],a:1,e:"Xác định trạng thái mục tiêu đo lường được là bước Where do we want to be?"},
+{m:7,t:1,q:"Một giám đốc nói: “Cải tiến là việc của phòng Chất lượng, các đội vận hành chỉ cần làm đúng quy trình.”\nTheo ITIL 4, phản hồi nào phù hợp nhất?",o:["Đúng, cải tiến chỉ nên do đội chuyên trách thực hiện","Cải tiến liên tục là trách nhiệm của mọi người; đội chuyên trách có thể dẫn dắt nhưng không thay thế sự tham gia của tất cả","Cải tiến chỉ là trách nhiệm của ban lãnh đạo","Cải tiến chỉ cần thiết khi có incident nghiêm trọng"],a:1,e:"ITIL 4 nhấn mạnh continual improvement là trách nhiệm của tất cả mọi người trong tổ chức."},
+{m:7,t:1,q:"Đội cải tiến đã biết hiện trạng và mục tiêu. Giờ họ quyết định chia công việc thành nhiều vòng lặp nhỏ, mỗi vòng 2 tuần, thay vì một dự án lớn kéo dài 1 năm.\nĐây là bước nào của mô hình continual improvement?",o:["How do we get there?","Take action","What is the vision?","Where are we now?"],a:0,e:"Lập kế hoạch cách đạt mục tiêu (kể cả chọn cách làm theo vòng lặp) là bước How do we get there?. Take action là bước thực hiện kế hoạch."},
+/* Change enablement */
+{m:7,t:1,q:"Mỗi tháng đội IT thay ổ cứng hỏng trên máy trạm khoảng 40 lần. Quy trình đã được viết rõ, rủi ro thấp và đã được đánh giá, phê duyệt từ trước.\nViệc thay ổ cứng nên được quản lý như loại change nào?",o:["Normal change","Emergency change","Standard change","Không cần quản lý như change"],a:2,e:"Thay đổi rủi ro thấp, lặp lại, đã có quy trình được phê duyệt trước là standard change; không cần phê duyệt thêm mỗi lần làm."},
+{m:7,t:1,q:"Công ty dự định nâng cấp hệ thống ERP lên phiên bản mới. Thay đổi ảnh hưởng đến kế toán, kho và bán hàng.\nCách xử lý nào phù hợp?",o:["Xử lý như standard change để tiết kiệm thời gian","Xử lý như normal change, được đánh giá và phê duyệt bởi change authority phù hợp với mức rủi ro cao","Xử lý như emergency change","Xử lý như service request"],a:1,e:"Thay đổi lớn, rủi ro cao là normal change; change authority cần ở cấp phù hợp, có thể là quản lý cấp cao."},
+{m:7,t:1,q:"Lúc 22h, hệ thống thanh toán trực tuyến ngừng hoạt động do lỗi cấu hình. Cần thay đổi cấu hình ngay để khôi phục dịch vụ.\nThay đổi này nên được xử lý thế nào?",o:["Như emergency change: đánh giá và phê duyệt nhanh, có thể bởi change authority riêng","Chờ cuộc họp phê duyệt change hàng tuần","Thực hiện ngay, không cần đánh giá hay phê duyệt","Ghi vào CIR để xem xét sau"],a:0,e:"Emergency change phải thực hiện càng sớm càng tốt nhưng VẪN cần đánh giá và phê duyệt, thường qua change authority riêng."},
+{m:7,t:1,q:"Hai đội cùng lên kế hoạch thay đổi trên máy chủ cơ sở dữ liệu vào cùng một đêm mà không biết nhau.\nCông cụ nào của change enablement giúp tránh tình huống này?",o:["Continual improvement register","Service level agreement","Change schedule","Known error database"],a:2,e:"Change schedule giúp lên kế hoạch, phát hiện và tránh xung đột giữa các thay đổi, phân bổ nguồn lực."},
+{m:7,t:1,q:"Tại một công ty, MỌI thay đổi (kể cả đổi tên thư mục chia sẻ) đều phải chờ hội đồng họp mỗi thứ Năm để phê duyệt. Các đội phàn nàn công việc bị chậm.\nKhuyến nghị nào phù hợp nhất với ITIL 4?",o:["Bỏ hẳn quy trình phê duyệt","Chọn change authority phù hợp với từng loại và mức rủi ro của change; chuyển các change lặp lại, rủi ro thấp thành standard change","Tăng số buổi họp hội đồng lên mỗi ngày","Xử lý mọi change như emergency change"],a:1,e:"Change authority nên phân quyền theo loại và rủi ro để vừa nhanh vừa kiểm soát được. Change lặp lại rủi ro thấp nên thành standard change."},
+{m:7,t:1,q:"Một ứng dụng bắt đầu lỗi từ sáng nay. Đội xử lý sự cố muốn biết có thay đổi nào được triển khai đêm qua không.\nThông tin này lấy từ đâu là phù hợp nhất?",o:["Change schedule và bản ghi change","Service level agreement","Continual improvement register","Danh sách service offering"],a:0,e:"Change schedule cũng cung cấp thông tin cho incident management và problem management, ví dụ để tìm thay đổi gần đây có liên quan."},
+/* Incident management */
+{m:7,t:1,q:"Service desk nhận hai incident cùng lúc:\n• Incident A: hệ thống bán hàng ngừng tại toàn bộ 50 cửa hàng.\n• Incident B: giám đốc tài chính không in được từ máy in phòng riêng, có thể dùng máy in chung.\nIncident nào nên được ưu tiên và vì sao?",o:["Incident B, vì người báo có chức vụ cao hơn","Incident A, vì tác động (impact) và độ khẩn cấp (urgency) đối với kinh doanh cao hơn","Incident B, vì báo trước","Hai incident có cùng mức ưu tiên"],a:1,e:"Incident được ưu tiên theo phân loại đã thống nhất dựa trên impact và urgency, không theo chức danh người báo."},
+{m:7,t:1,q:"Một incident phức tạp đã được chuyển qua lại giữa đội mạng, đội máy chủ và đội ứng dụng suốt 6 tiếng mà chưa ai nhận.\nCách tiếp cận nào giúp giải quyết nhanh hơn?",o:["Chuyển incident sang problem management","Swarming: tập hợp chuyên gia các đội cùng xử lý cho đến khi rõ ai phù hợp nhất để tiếp tục","Chờ người dùng báo lại","Đóng incident và mở incident mới"],a:1,e:"Swarming giảm việc chuyển qua lại bằng cách để nhiều bên cùng làm ngay từ đầu."},
+{m:7,t:1,q:"Một người dùng không kết nối được VPN. Trên cổng tự phục vụ có bài hướng dẫn cài lại chứng chỉ VPN; người dùng làm theo và kết nối lại được.\nPhát biểu nào ĐÚNG?",o:["Đây là service request, không phải incident","Đây là incident được giải quyết bằng tự phục vụ (self-help) của người dùng","Đây là problem vì người dùng tự tìm ra nguyên nhân","Đây là standard change"],a:1,e:"Mất kết nối VPN là gián đoạn ngoài kế hoạch (incident). ITIL 4 cho phép một số incident được người dùng tự giải quyết qua công cụ self-help."},
+{m:7,t:1,q:"Hệ thống email của toàn công ty ngừng hoạt động trong giờ làm việc, ảnh hưởng đến hàng nghìn người dùng và khách hàng.\nIncident này nên được xử lý thế nào?",o:["Theo cùng quy trình như mọi incident thông thường","Theo quy trình riêng dành cho major incident","Ghi vào CIR","Chuyển thành service request"],a:1,e:"Major incident thường cần quy trình riêng, với phối hợp và truyền thông chặt chẽ hơn."},
+{m:7,t:1,q:"Người dùng báo ứng dụng kế toán bị treo. Nhân viên service desk tìm thấy known error tương ứng có workaround “xoá bộ nhớ đệm rồi khởi động lại” và hướng dẫn người dùng; ứng dụng hoạt động lại.\nPhát biểu nào ĐÚNG?",o:["Incident được giải quyết nhanh nhờ dùng workaround đã ghi trong known error; incident nên được liên kết với problem/known error","Problem đã được giải quyết triệt để","Nhân viên service desk đã thực hiện error control","Đây là một standard change"],a:0,e:"Incident management dùng workaround từ problem management để khôi phục nhanh. Nguyên nhân gốc vẫn còn, nên known error chưa được giải quyết."},
+{m:7,t:1,q:"Máy chủ in ấn bị treo gần như mỗi thứ Hai. Lần nào service desk cũng khởi động lại và đóng incident.\nĐiều gì nên được thực hiện tiếp theo?",o:["Tiếp tục khởi động lại vì đã khôi phục được dịch vụ","Ghi nhận một problem để điều tra nguyên nhân của các incident lặp lại","Tạo service request mua máy chủ mới","Xử lý như emergency change"],a:1,e:"Incident lặp lại là dấu hiệu để problem identification ghi nhận problem và tìm nguyên nhân."},
+/* Problem management */
+{m:7,t:1,q:"Phân tích dữ liệu incident của quý cho thấy 30 incident “không đăng nhập được” đều xảy ra sau mỗi lần đồng bộ thư mục người dùng.\nHoạt động này thuộc giai đoạn nào của problem management?",o:["Problem identification","Problem control","Error control","Incident control"],a:0,e:"Phân tích xu hướng incident để phát hiện problem thuộc problem identification."},
+{m:7,t:1,q:"Đội kỹ thuật đã xác định nguyên nhân gây lỗi là một bug của phần mềm. Nhà cung cấp hẹn 3 tháng nữa mới có bản vá. Trong lúc chờ, người dùng có thể dùng chức năng xuất dữ liệu thay thế.\nTình trạng hiện tại được mô tả đúng nhất là gì?",o:["Incident đã được giải quyết triệt để","Known error có workaround","Standard change","Service request đang chờ phê duyệt"],a:1,e:"Problem đã được phân tích nhưng chưa giải quyết là known error; cách dùng tạm chức năng thay thế là workaround."},
+{m:7,t:1,q:"Đội problem định kỳ xem lại các known error: workaround còn hiệu quả không, chi phí và rủi ro của việc sửa triệt để ra sao, có nên đề xuất thay đổi không.\nĐây là giai đoạn nào?",o:["Problem identification","Problem control","Error control","Change control"],a:2,e:"Error control quản lý known error, đánh giá lại workaround và giải pháp lâu dài."},
+{m:7,t:1,q:"Kỹ sư đang phân tích một problem: xem xét các CI liên quan, tái hiện lỗi và ghi lại một workaround tạm thời cho service desk.\nĐây là giai đoạn nào?",o:["Problem identification","Problem control","Error control","Incident management"],a:1,e:"Problem control gồm phân tích problem và ghi nhận workaround, known error."},
+{m:7,t:1,q:"Nhà cung cấp phần mềm cảnh báo một lỗi có thể khiến hệ thống ngừng khi dung lượng vượt 2TB. Hệ thống của công ty hiện ở mức 1,8TB và chưa có incident nào.\nPhát biểu nào ĐÚNG?",o:["Không cần làm gì vì chưa có incident","Có thể ghi nhận một problem, vì problem bao gồm cả nguyên nhân tiềm ẩn của incident","Đây là một incident","Đây là service request"],a:1,e:"Problem là nguyên nhân HOẶC nguyên nhân tiềm ẩn. Thông tin từ nhà cung cấp là một nguồn của problem identification."},
+{m:7,t:1,q:"Problem management xác định giải pháp triệt để là nâng cấp firmware cho toàn bộ bộ chuyển mạch mạng.\nBước tiếp theo phù hợp là gì?",o:["Đội problem tự nâng cấp ngay","Khởi tạo change request để thay đổi được đánh giá và phê duyệt qua change enablement","Đóng problem vì đã biết giải pháp","Ghi vào SLA"],a:1,e:"Giải pháp cần thay đổi hạ tầng phải đi qua change enablement. Error control có thể khởi tạo change request."},
+/* Service request management */
+{m:7,t:1,q:"Phòng nhân sự báo có nhân viên mới bắt đầu làm việc vào thứ Hai, cần laptop, tài khoản email và quyền vào hệ thống nội bộ theo gói tiêu chuẩn.\nYêu cầu này nên được xử lý thế nào?",o:["Như một incident","Như một service request theo quy trình đã định nghĩa trước","Như một normal change cần hội đồng phê duyệt","Như một problem"],a:1,e:"Cung cấp thiết bị, tài khoản theo gói tiêu chuẩn là hành động dịch vụ đã thoả thuận trước, tức service request."},
+{m:7,t:1,q:"Một nhân viên yêu cầu cài phần mềm thiết kế có giá bản quyền cao. Chính sách công ty quy định phần mềm trên 10 triệu đồng phải có quản lý phê duyệt.\nPhát biểu nào ĐÚNG?",o:["Đây không phải service request vì cần phê duyệt","Service request có thể cần phê duyệt theo chính sách đã định; quy trình nên đưa bước phê duyệt vào","Phải xử lý như emergency change","Service desk tự quyết định không cần phê duyệt"],a:1,e:"Một số service request cần phê duyệt theo chính sách, và bước phê duyệt là một phần của quy trình chuẩn."},
+{m:7,t:1,q:"Service desk nhận hàng trăm yêu cầu đặt lại mật khẩu mỗi tuần, chiếm nhiều thời gian của nhân viên.\nKhuyến nghị nào phù hợp nhất với service request management?",o:["Tuyển thêm nhân viên service desk","Chuẩn hoá và tự động hoá yêu cầu, ví dụ cho người dùng tự đặt lại mật khẩu qua cổng tự phục vụ","Xử lý mỗi yêu cầu như một incident","Ngừng hỗ trợ đặt lại mật khẩu"],a:1,e:"Service request nên được chuẩn hoá và tự động hoá ở mức tối đa có thể."},
+{m:7,t:1,q:"Một người dùng gọi lên hỏi: “Làm sao để xuất báo cáo doanh thu tháng ra Excel?”. Hệ thống vẫn hoạt động bình thường.\nĐây là gì?",o:["Incident","Problem","Service request (yêu cầu thông tin)","Normal change"],a:2,e:"Yêu cầu thông tin là một loại service request. Không có gián đoạn dịch vụ nên không phải incident."},
+{m:7,t:1,q:"Một trưởng phòng yêu cầu thêm tính năng mới vào ứng dụng nội bộ, tính năng này chưa từng tồn tại và chưa có trong danh mục dịch vụ.\nPhát biểu nào ĐÚNG?",o:["Đây là service request vì do người dùng khởi tạo","Đây không phải service request vì không phải hành động dịch vụ đã thoả thuận trước; cần được xử lý qua các thực hành khác như change enablement","Đây là incident","Đây là standard change"],a:1,e:"Service request phải là hành động đã được thoả thuận là phần bình thường của việc cung cấp dịch vụ. Tính năng mới chưa định nghĩa thì không phải."},
+/* Service desk */
+{m:7,t:1,q:"Một người dùng gọi lên rất bực bội vì máy tính hỏng 30 phút trước hạn nộp báo cáo cho khách hàng.\nNhân viên service desk nên ưu tiên thể hiện điều gì?",o:["Giải thích quy trình tiếp nhận incident chi tiết","Thấu hiểu, đồng cảm với tình huống và tác động kinh doanh, đồng thời tìm cách giúp người dùng tiếp tục làm việc","Yêu cầu người dùng gửi email thay vì gọi điện","Chuyển ngay cho đội kỹ thuật mà không ghi nhận"],a:1,e:"Service desk cần empathy, emotional intelligence và hiểu tác động kinh doanh của vấn đề."},
+{m:7,t:1,q:"Công ty có văn phòng ở Hà Nội, Đà Nẵng và TP.HCM. Họ muốn nhân viên hỗ trợ ở cả ba nơi cùng hoạt động như một service desk thống nhất, dùng chung công cụ và hàng đợi.\nMô hình nào phù hợp?",o:["Virtual service desk","Ba service desk độc lập","Chỉ dùng cổng tự phục vụ","Thuê ngoài toàn bộ"],a:0,e:"Virtual service desk cho phép nhân viên ở nhiều địa điểm làm việc như một nhóm nhờ công nghệ."},
+{m:7,t:1,q:"Nhân viên service desk nhận một incident về lỗi đồng bộ cơ sở dữ liệu, vượt quá kiến thức kỹ thuật của mình.\nNhân viên nên làm gì?",o:["Từ chối tiếp nhận vì không đúng chuyên môn","Ghi nhận, phân loại, chuyển cho nhóm hỗ trợ phù hợp và tiếp tục cập nhật cho người dùng","Yêu cầu người dùng tự liên hệ đội cơ sở dữ liệu","Đóng incident"],a:1,e:"Service desk không nhất thiết tự giải quyết mọi vấn đề; vai trò chính là tiếp nhận, phân loại, điều phối và giao tiếp với người dùng."},
+{m:7,t:1,q:"Người dùng muốn liên hệ hỗ trợ ngoài giờ qua chat và cổng tự phục vụ, thay vì chỉ có điện thoại trong giờ hành chính.\nKhuyến nghị nào phù hợp với service desk theo ITIL 4?",o:["Chỉ giữ một kênh điện thoại để dễ quản lý","Cung cấp nhiều kênh tiếp nhận (điện thoại, chat, cổng tự phục vụ, email…) phù hợp với nhu cầu người dùng","Bỏ service desk và chỉ dùng email","Yêu cầu người dùng đến trực tiếp"],a:1,e:"Service desk hiện đại tiếp nhận qua nhiều kênh, vẫn là single point of contact."},
+/* Service level management */
+{m:7,t:1,q:"Báo cáo hàng tháng cho thấy hệ thống bán hàng đạt 99,9% thời gian hoạt động, đúng SLA. Nhưng đội kinh doanh liên tục phàn nàn hệ thống rất chậm vào cuối tháng khi chốt đơn.\nVấn đề này được mô tả đúng nhất là gì?",o:["SLA đã đạt nên không có vấn đề","Watermelon effect: chỉ số đạt nhưng khách hàng không hài lòng; cần xem lại chỉ số để gắn với kết quả kinh doanh và trải nghiệm","Đây là lỗi của service desk","Cần tăng mục tiêu uptime lên 99,99%"],a:1,e:"Chỉ số “xanh” nhưng khách hàng “đỏ” là watermelon effect. Cần đo những gì phản ánh outcome và trải nghiệm."},
+{m:7,t:1,q:"Một nhà cung cấp dịch vụ chuẩn bị xây dựng SLA cho khách hàng mới.\nViệc nên làm đầu tiên là gì?",o:["Sao chép SLA của khách hàng cũ","Gắn kết với khách hàng để lắng nghe, hiểu nhu cầu và kết quả kinh doanh họ cần","Đặt mục tiêu uptime cao nhất có thể","Viết SLA dựa trên khả năng hiện tại của hệ thống"],a:1,e:"SLM bắt đầu bằng customer engagement: lắng nghe, tìm hiểu nhu cầu thực sự của khách hàng."},
+{m:7,t:1,q:"SLA hiện tại dài 40 trang, đầy thuật ngữ kỹ thuật; khách hàng thừa nhận họ không đọc và không hiểu.\nĐiều này vi phạm yêu cầu nào của SLA theo ITIL 4?",o:["SLA phải được viết đơn giản, dễ hiểu với cả hai bên","SLA phải bao gồm mọi chỉ số kỹ thuật","SLA phải do đội pháp chế soạn","SLA phải dài để đầy đủ"],a:0,e:"SLA nên được viết đơn giản, dễ hiểu và phản ánh thoả thuận thực sự giữa hai bên."},
+{m:7,t:1,q:"Quản lý mức dịch vụ muốn đánh giá dịch vụ một cách toàn diện.\nNguồn thông tin nào phù hợp nhất?",o:["Chỉ các chỉ số giám sát hệ thống","Kết hợp chỉ số vận hành, chỉ số kinh doanh và phản hồi, khảo sát mức hài lòng của khách hàng","Chỉ số lượng incident đã đóng","Chỉ ý kiến của đội kỹ thuật"],a:1,e:"SLM dùng nhiều nguồn: chỉ số vận hành, chỉ số kinh doanh, phản hồi khách hàng để có bức tranh đầy đủ."},
+
+/* ================= BỔ SUNG ĐỢT 2 ================= */
+/* ---- LO1 bổ sung ---- */
+{m:1,q:"Phát biểu nào về vai trò nhà cung cấp và người tiêu dùng dịch vụ là ĐÚNG?",o:["Một tổ chức chỉ có thể là nhà cung cấp hoặc người tiêu dùng, không thể là cả hai","Một tổ chức có thể là nhà cung cấp trong quan hệ này và người tiêu dùng trong quan hệ khác","Chỉ tổ chức bên ngoài mới là người tiêu dùng dịch vụ","Người tiêu dùng dịch vụ luôn là cá nhân"],a:1,e:"Tổ chức thường vừa cung cấp dịch vụ cho người khác vừa tiêu dùng dịch vụ của nhà cung cấp khác."},
+{m:1,q:"Một công ty giao điện thoại di động cho nhân viên mới và nhân viên được sở hữu chiếc điện thoại đó.\nThành phần nào của service offering được mô tả?",o:["Goods","Access to resources","Service action","Service relationship"],a:0,e:"Goods: quyền sở hữu được chuyển cho người tiêu dùng, và người tiêu dùng chịu trách nhiệm sử dụng."},
+{m:1,q:"Nhà cung cấp cấp cho khách hàng quyền dùng 1TB dung lượng lưu trữ đám mây; quyền sở hữu hạ tầng vẫn thuộc nhà cung cấp.\nThành phần nào của service offering được mô tả?",o:["Goods","Access to resources","Service action","Output"],a:1,e:"Access to resources: quyền truy cập được cấp theo điều kiện thoả thuận, quyền sở hữu không chuyển giao."},
+{m:1,q:"Kỹ thuật viên của nhà cung cấp đến tận nơi cài đặt và cấu hình máy in cho khách hàng.\nThành phần nào của service offering được mô tả?",o:["Goods","Access to resources","Service action","Warranty"],a:2,e:"Service action: hành động do nhà cung cấp thực hiện để đáp ứng nhu cầu người tiêu dùng."},
+{m:1,q:"Đội BI gửi báo cáo doanh số hàng tháng cho trưởng phòng kinh doanh. Nhờ báo cáo, trưởng phòng điều chỉnh chỉ tiêu kịp thời và tăng doanh thu.\nPhát biểu nào ĐÚNG?",o:["Báo cáo là outcome; tăng doanh thu là output","Báo cáo là output; việc ra quyết định tốt hơn và tăng doanh thu là outcome","Cả hai đều là output","Cả hai đều là outcome"],a:1,e:"Output là sản phẩm của hoạt động (báo cáo); outcome là kết quả cho bên liên quan nhờ output đó."},
+{m:1,q:"Một công ty chuyển sang dùng dịch vụ email trên đám mây và không còn phải mua, bảo trì máy chủ email.\nĐiều này minh hoạ khía cạnh nào của định nghĩa “service”?",o:["Khách hàng không phải tự quản lý các chi phí và rủi ro cụ thể","Khách hàng được chuyển quyền sở hữu máy chủ","Nhà cung cấp tạo outcome thay cho khách hàng","Dịch vụ loại bỏ mọi chi phí"],a:0,e:"Service giúp khách hàng đạt kết quả mong muốn mà không phải tự quản lý các chi phí và rủi ro cụ thể (ở đây là máy chủ)."},
+{m:1,q:"Khi dùng một dịch vụ mới, khách hàng phải trả phí thuê bao hàng tháng và tổ chức đào tạo cho nhân viên.\nĐây là ví dụ về điều gì?",o:["Chi phí được loại bỏ (costs removed)","Chi phí phát sinh thêm (costs imposed) cho người tiêu dùng","Rủi ro được loại bỏ","Warranty của dịch vụ"],a:1,e:"Dịch vụ có thể đưa thêm chi phí cho người tiêu dùng, như giá dịch vụ và chi phí đào tạo."},
+{m:1,q:"Một ứng dụng kế toán có khả năng xuất hoá đơn điện tử theo quy định mới của cơ quan thuế.\nĐặc điểm này mô tả utility hay warranty?",o:["Utility, vì đó là chức năng đáp ứng một nhu cầu cụ thể","Warranty, vì đó là sự bảo đảm đáp ứng yêu cầu","Cả hai","Không phải cả hai"],a:0,e:"Khả năng (chức năng) xuất hoá đơn là utility: dịch vụ làm được gì."},
+{m:1,q:"Hợp đồng cam kết ứng dụng hoạt động 99,5% thời gian trong giờ làm việc và xử lý tối thiểu 500 giao dịch mỗi giây.\nĐặc điểm này mô tả utility hay warranty?",o:["Utility","Warranty","Outcome","Service offering"],a:1,e:"Khả dụng và năng lực xử lý là warranty: bảo đảm dịch vụ vận hành theo yêu cầu đã thoả thuận."},
+{m:1,q:"Theo ITIL 4, giá trị được tạo ra như thế nào?",o:["Do nhà cung cấp tạo ra và chuyển cho người tiêu dùng","Được đồng tạo (co-created) thông qua hợp tác tích cực giữa nhà cung cấp, người tiêu dùng và các bên liên quan khác","Chỉ do người tiêu dùng tạo ra","Chỉ được đo bằng tiền"],a:1,e:"ITIL 4 nhấn mạnh value co-creation: giá trị được đồng tạo, không phải chuyển một chiều từ nhà cung cấp."},
+{m:1,q:"Service relationship management là gì?",o:["Các hoạt động chung giữa nhà cung cấp và người tiêu dùng để bảo đảm liên tục đồng tạo giá trị dựa trên service offering đã thoả thuận","Việc quản lý hợp đồng nhà cung cấp","Việc quản lý mức dịch vụ trong SLA","Việc tiếp nhận yêu cầu của người dùng"],a:0,e:"Service relationship management: joint activities performed by a service provider and a service consumer to ensure continual value co-creation."},
+{m:1,q:"Ngoài khách hàng, những bên nào có thể nhận được giá trị từ dịch vụ?\n1. Nhà cung cấp dịch vụ\n2. Nhân viên của nhà cung cấp\n3. Xã hội và cộng đồng\n4. Đối tác, nhà cung cấp của nhà cung cấp",o:["Chỉ 1","1 và 2","1, 2 và 3","1, 2, 3 và 4"],a:3,e:"ITIL 4 xem giá trị cho mọi bên liên quan: người tiêu dùng, nhà cung cấp, nhân viên, xã hội, đối tác."},
+/* ---- LO2 bổ sung ---- */
+{m:2,q:"Một công ty quyết định mua công cụ tự động hoá đắt tiền để tự động hoá toàn bộ quy trình phê duyệt hiện tại, dù quy trình này có nhiều bước thừa.\nNguyên tắc nào bị bỏ qua rõ nhất?",o:["Optimize and automate","Start where you are","Collaborate and promote visibility","Focus on value"],a:0,e:"Cần tối ưu (loại bỏ bước thừa) TRƯỚC khi tự động hoá, nếu không sẽ tự động hoá sự lãng phí."},
+{m:2,q:"Đội phát triển xây dựng cổng thông tin mới với nhiều tính năng nhưng không hỏi người dùng. Sau khi ra mắt, phần lớn tính năng không ai dùng.\nNguyên tắc nào lẽ ra đã giúp tránh điều này?",o:["Focus on value","Optimize and automate","Start where you are","Keep it simple and practical"],a:0,e:"Focus on value: xác định người được phục vụ và hiểu giá trị theo góc nhìn của họ."},
+{m:2,q:"Một dự án cải tiến bị nhân viên phản đối vì họ không được thông báo lý do và tiến độ thay đổi.\nNguyên tắc nào nên được áp dụng tốt hơn?",o:["Collaborate and promote visibility","Optimize and automate","Think and work holistically","Keep it simple and practical"],a:0,e:"Minh bạch và hợp tác giúp tạo sự ủng hộ, giảm phản đối."},
+{m:2,q:"Một công ty thay đổi quy trình xử lý incident nhưng quên cập nhật công cụ, đào tạo service desk và điều chỉnh hợp đồng với nhà cung cấp hỗ trợ. Kết quả là quy trình mới thất bại.\nNguyên tắc nào bị bỏ qua?",o:["Think and work holistically","Progress iteratively with feedback","Start where you are","Focus on value"],a:0,e:"Thay đổi cần xét toàn bộ hệ thống và cả 4 khía cạnh (con người, công nghệ, đối tác, quy trình)."},
+{m:2,q:"Một yêu cầu mua chuột máy tính phải qua 5 cấp phê duyệt.\nNguyên tắc nào khuyến nghị xem xét lại quy trình này?",o:["Keep it simple and practical","Collaborate and promote visibility","Think and work holistically","Start where you are"],a:0,e:"Keep it simple and practical: bỏ những bước không tạo giá trị, dùng số bước tối thiểu."},
+{m:2,q:"Thay vì chuyển đổi toàn bộ hệ thống trong một lần, đội dự án triển khai phiên bản tối thiểu cho một phòng ban, thu phản hồi rồi mở rộng dần.\nNguyên tắc nào được áp dụng?",o:["Progress iteratively with feedback","Optimize and automate","Think and work holistically","Focus on value"],a:0,e:"Triển khai từng phần nhỏ, thu phản hồi và điều chỉnh là Progress iteratively with feedback."},
+{m:2,q:"Một tổ chức muốn xây cơ sở tri thức mới. Trước đó, họ rà soát các tài liệu hướng dẫn hiện có của service desk và giữ lại những bài còn chính xác.\nNguyên tắc nào được áp dụng?",o:["Start where you are","Keep it simple and practical","Focus on value","Optimize and automate"],a:0,e:"Tái sử dụng những gì đang có và còn tốt là Start where you are."},
+{m:2,q:"Đội vận hành dùng bảng Kanban treo tường và màn hình hiển thị trạng thái công việc để mọi người cùng thấy tiến độ và điểm nghẽn.\nNguyên tắc nào được thể hiện?",o:["Collaborate and promote visibility","Keep it simple and practical","Optimize and automate","Start where you are"],a:0,e:"Làm cho công việc hiển thị rõ (visibility) giúp phát hiện điểm nghẽn và ra quyết định tốt hơn."},
+{m:2,q:"Tự động hoá được dùng để thực hiện các công việc lặp lại, thường xuyên, để nhân viên tập trung vào việc cần phán đoán phức tạp.\nPhát biểu này gắn với nguyên tắc nào?",o:["Optimize and automate","Keep it simple and practical","Think and work holistically","Progress iteratively with feedback"],a:0,e:"Optimize and automate: dùng công nghệ cho việc lặp lại, giải phóng con người cho việc phức tạp."},
+{m:2,q:"Khi thiết kế một quy trình mới, đội bắt đầu từ kết quả mong muốn và với mỗi bước đều hỏi: “Bước này có đóng góp vào kết quả không?”.\nNguyên tắc nào được áp dụng?",o:["Keep it simple and practical","Collaborate and promote visibility","Start where you are","Think and work holistically"],a:0,e:"Keep it simple and practical khuyến nghị giữ lại chỉ những bước đóng góp vào giá trị/kết quả."},
+{m:2,q:"Phát biểu nào về nguyên tắc Progress iteratively with feedback là ĐÚNG?",o:["Làm việc theo vòng lặp nghĩa là không cần nhìn bức tranh tổng thể","Mỗi vòng lặp vẫn cần được quản lý và đánh giá lại, kể cả với một sáng kiến lớn được chia nhỏ","Phản hồi chỉ cần thu thập ở cuối dự án","Vòng lặp chỉ dùng cho phát triển phần mềm"],a:1,e:"Chia nhỏ không có nghĩa bỏ qua tổng thể; mỗi vòng lặp được đánh giá và điều chỉnh dựa trên phản hồi trước, trong và sau."},
+{m:2,q:"Những phát biểu nào về các nguyên tắc chỉ dẫn là ĐÚNG?\n1. Chúng phổ quát và bền vững, áp dụng cho mọi tổ chức\n2. Chúng chỉ áp dụng khi triển khai ITIL lần đầu\n3. Chúng có thể hướng dẫn quyết định và hành động trong nhiều tình huống\n4. Chúng nên được áp dụng riêng lẻ, mỗi lần một nguyên tắc",o:["1 và 3","2 và 4","1 và 4","2 và 3"],a:0,e:"Nguyên tắc chỉ dẫn mang tính phổ quát, bền vững, áp dụng trong mọi hoàn cảnh và nên được cân nhắc cùng nhau."},
+/* ---- LO3 bổ sung ---- */
+{m:3,q:"Một tổ chức quyết định thuê ngoài toàn bộ service desk cho một công ty chuyên nghiệp.\nQuyết định này chủ yếu thuộc khía cạnh nào?",o:["Partners and suppliers","Information and technology","Organizations and people","Value streams and processes"],a:0,e:"Chiến lược sử dụng nhà cung cấp (sourcing) thuộc khía cạnh Partners and suppliers."},
+{m:3,q:"Đội dự án xác định các bước, thứ tự hoạt động và điểm kiểm soát để đưa một dịch vụ mới đến khách hàng.\nĐây là cân nhắc thuộc khía cạnh nào?",o:["Value streams and processes","Organizations and people","Partners and suppliers","Information and technology"],a:0,e:"Các hoạt động, thứ tự, kiểm soát để tạo và cung cấp giá trị thuộc Value streams and processes."},
+{m:3,q:"Luật bảo vệ dữ liệu cá nhân mới có hiệu lực, buộc công ty thay đổi cách lưu trữ dữ liệu khách hàng, đào tạo nhân viên và rà soát hợp đồng với nhà cung cấp cloud.\nPhát biểu nào ĐÚNG?",o:["Đây là yếu tố Legal của PESTLE và ảnh hưởng đến nhiều khía cạnh","Đây chỉ ảnh hưởng đến khía cạnh Information and technology","Đây là yếu tố Economic","Yếu tố bên ngoài không ảnh hưởng đến quản lý dịch vụ"],a:0,e:"Yếu tố pháp lý (Legal) bên ngoài có thể ảnh hưởng đến cả 4 khía cạnh như tình huống cho thấy."},
+{m:3,q:"Hệ thống quản lý luồng công việc, cơ sở tri thức và hệ thống kiểm kê là ví dụ thuộc khía cạnh nào?",o:["Information and technology","Value streams and processes","Partners and suppliers","Organizations and people"],a:0,e:"Công nghệ và hệ thống thông tin hỗ trợ quản lý dịch vụ thuộc Information and technology."},
+{m:3,q:"Một công ty mua công cụ ITSM hiện đại nhưng không đào tạo nhân viên và không thay đổi cách làm việc. Công cụ gần như không được dùng.\nĐiều này cho thấy điều gì?",o:["Công cụ ITSM không cần thiết","Nếu bỏ qua một khía cạnh (ở đây là con người, quy trình), dịch vụ khó tạo ra giá trị như mong đợi","Chỉ cần tập trung vào Information and technology","Cần thuê thêm nhà cung cấp"],a:1,e:"Cả 4 khía cạnh cần được cân bằng; bỏ qua khía cạnh nào cũng làm giảm hiệu quả."},
+{m:3,q:"Vai trò, trách nhiệm, hệ thống quyền hạn và truyền thông nội bộ thuộc khía cạnh nào?",o:["Organizations and people","Value streams and processes","Information and technology","Partners and suppliers"],a:0,e:"Cơ cấu, vai trò, trách nhiệm, quyền hạn và truyền thông thuộc Organizations and people."},
+/* ---- LO4 bổ sung ---- */
+{m:4,q:"Trong ITIL 4, “practice” (thực hành) được định nghĩa là gì?",o:["Một tập hợp nguồn lực tổ chức được thiết kế để thực hiện công việc hoặc đạt một mục tiêu","Một quy trình chỉ dành cho đội IT","Một thoả thuận giữa nhà cung cấp và khách hàng","Một hoạt động trong chuỗi giá trị"],a:0,e:"Practice = a set of organizational resources designed for performing work or accomplishing an objective."},
+{m:4,q:"“Opportunity” trong SVS là gì?",o:["Các lựa chọn hoặc khả năng để tạo thêm giá trị cho bên liên quan hoặc cải tiến tổ chức","Nhu cầu về sản phẩm, dịch vụ từ người tiêu dùng","Một sự cố cần giải quyết","Một thay đổi đã được phê duyệt"],a:0,e:"Opportunity: options or possibilities to add value for stakeholders or otherwise improve the organization."},
+{m:4,q:"“Demand” trong SVS là gì?",o:["Nhu cầu hoặc mong muốn về sản phẩm, dịch vụ từ người tiêu dùng nội bộ và bên ngoài","Ngân sách của khách hàng","Các cơ hội cải tiến tổ chức","Năng lực của nhà cung cấp"],a:0,e:"Demand: the need or desire for products and services among internal and external consumers."},
+{m:4,q:"Phát biểu nào về continual improvement trong SVS là ĐÚNG?",o:["Chỉ áp dụng cho các thực hành vận hành","Diễn ra ở mọi cấp độ của tổ chức, từ chiến lược đến vận hành","Chỉ thực hiện một lần mỗi năm","Chỉ do ban lãnh đạo thực hiện"],a:1,e:"Continual improvement là thành phần của SVS, diễn ra ở mọi lĩnh vực và mọi cấp độ của tổ chức."},
+{m:4,q:"Tại sao chuỗi giá trị trong SVS giúp tổ chức linh hoạt?",o:["Vì nó quy định một quy trình duy nhất cho mọi dịch vụ","Vì các hoạt động có thể kết hợp theo nhiều cách để tạo nhiều value stream, thích ứng với nhu cầu thay đổi","Vì nó bỏ qua quản trị (governance)","Vì nó chỉ dùng tự động hoá"],a:1,e:"Tính linh hoạt của SVS đến từ việc kết hợp hoạt động thành nhiều value stream khác nhau."},
+/* ---- LO5 bổ sung ---- */
+{m:5,q:"Một quản lý quan hệ khách hàng họp với phòng Marketing để thu thập yêu cầu cho một dịch vụ mới.\nHoạt động chuỗi giá trị nào được thực hiện?",o:["Engage","Plan","Obtain/build","Deliver & support"],a:0,e:"Tương tác với bên liên quan để hiểu nhu cầu là Engage."},
+{m:5,q:"Đội IT mua máy chủ mới và phát triển các thành phần phần mềm theo đặc tả đã thống nhất.\nHoạt động nào được thực hiện?",o:["Obtain/build","Design & transition","Plan","Improve"],a:0,e:"Mua sắm hoặc xây dựng thành phần dịch vụ theo đặc tả là Obtain/build."},
+{m:5,q:"Nhân viên hỗ trợ giải quyết incident và đáp ứng yêu cầu của người dùng hằng ngày.\nHoạt động nào là chính?",o:["Deliver & support","Engage","Improve","Design & transition"],a:0,e:"Cung cấp và hỗ trợ dịch vụ hằng ngày theo đặc tả là Deliver & support."},
+{m:5,q:"Ban lãnh đạo xây dựng lộ trình chiến lược và quyết định danh mục dịch vụ sẽ đầu tư trong 3 năm tới.\nHoạt động nào được thực hiện?",o:["Plan","Engage","Improve","Obtain/build"],a:0,e:"Thống nhất tầm nhìn, hiện trạng và hướng đi là Plan."},
+{m:5,q:"Đội dự án thiết kế dịch vụ mới, kiểm thử và chuyển giao vào vận hành, cân bằng giữa chất lượng, chi phí và thời gian ra mắt.\nHoạt động nào được thực hiện?",o:["Design & transition","Obtain/build","Deliver & support","Plan"],a:0,e:"Design & transition bảo đảm sản phẩm, dịch vụ đáp ứng kỳ vọng về chất lượng, chi phí, thời gian ra thị trường."},
+{m:5,q:"Hoạt động nào của chuỗi giá trị là giao diện chính với các bên liên quan bên ngoài như khách hàng, người dùng và nhà cung cấp?",o:["Engage","Plan","Improve","Design & transition"],a:0,e:"Engage là nơi tổ chức tương tác với bên liên quan, chuyển nhu cầu và cơ hội thành yêu cầu cho các hoạt động khác."},
+/* ---- LO6 bổ sung ---- */
+{m:6,q:"Công cụ giám sát phát hiện CPU của máy chủ vượt 90% và tự động tạo cảnh báo.\nThực hành nào chịu trách nhiệm chính?",o:["Monitoring and event management","Incident management","Service configuration management","Problem management"],a:0,e:"Quan sát có hệ thống và ghi nhận thay đổi trạng thái có ý nghĩa là monitoring and event management."},
+{m:6,q:"Công ty cần biết mình đang có bao nhiêu laptop, giá trị bao nhiêu, bản quyền phần mềm có tuân thủ không và khi nào cần thanh lý.\nThực hành nào hỗ trợ tốt nhất?",o:["IT asset management","Service configuration management","Supplier management","Release management"],a:0,e:"IT asset management quản lý vòng đời và giá trị tài chính tài sản IT, kể cả tuân thủ bản quyền."},
+{m:6,q:"Khi một máy chủ gặp sự cố, đội vận hành cần biết nhanh những ứng dụng và dịch vụ nào phụ thuộc vào máy chủ đó.\nThực hành nào cung cấp thông tin này?",o:["Service configuration management","IT asset management","Monitoring and event management","Deployment management"],a:0,e:"Service configuration management cung cấp thông tin về CI và mối quan hệ giữa chúng."},
+{m:6,q:"Mã nguồn tính năng mới đã nằm trên môi trường production nhưng được ẩn bằng công tắc tính năng (feature toggle). Tuần sau, công ty bật tính năng cho toàn bộ người dùng.\nViệc bật tính năng cho người dùng thuộc thực hành nào?",o:["Release management","Deployment management","Change enablement","Service request management"],a:0,e:"Release management đưa tính năng vào sử dụng; deployment (đưa mã lên production) có thể diễn ra trước và tách biệt."},
+{m:6,q:"Pipeline CI/CD tự động đẩy bản build mới lên các máy chủ production.\nThực hành nào được thể hiện?",o:["Deployment management","Release management","Service configuration management","IT asset management"],a:0,e:"Di chuyển thành phần mới vào môi trường live là deployment management."},
+{m:6,q:"Hằng quý, công ty họp đánh giá hiệu quả của nhà cung cấp cloud theo hợp đồng và thương lượng điều khoản gia hạn.\nThực hành nào được thể hiện?",o:["Supplier management","Relationship management","Service level management","IT asset management"],a:0,e:"Quản lý nhà cung cấp và hiệu quả của họ là supplier management."},
+{m:6,q:"Một quản lý quan hệ kinh doanh gặp lãnh đạo các phòng ban mỗi quý để hiểu chiến lược và nhu cầu sắp tới của họ.\nThực hành nào được thể hiện?",o:["Relationship management","Supplier management","Service level management","Service desk"],a:0,e:"Relationship management thiết lập, nuôi dưỡng liên kết với bên liên quan ở cấp chiến lược và chiến thuật."},
+{m:6,q:"Công ty triển khai xác thực hai lớp và đào tạo nhân viên nhận diện email lừa đảo.\nThực hành nào được thể hiện?",o:["Information security management","Service desk","Change enablement","Monitoring and event management"],a:0,e:"Bảo vệ thông tin của tổ chức là information security management."},
+{m:6,q:"Phát biểu nào về event là ĐÚNG?",o:["Mọi event đều là incident","Không phải mọi event đều là incident; một số event chỉ mang tính thông tin hoặc cảnh báo","Event chỉ được tạo bởi người dùng","Event chỉ được ghi nhận khi dịch vụ ngừng hoạt động"],a:1,e:"Event có thể là thông tin, cảnh báo hoặc ngoại lệ; chỉ một số event cần xử lý như incident."},
+{m:6,q:"Công cụ giám sát báo dung lượng ổ đĩa đã đạt 80%, sắp chạm ngưỡng tới hạn nhưng dịch vụ vẫn hoạt động bình thường.\nĐây là loại event nào?",o:["Informational event","Warning event","Exception event","Không phải event"],a:1,e:"Warning event: sắp chạm ngưỡng, cần chú ý để tránh incident. Exception event là khi đã vượt ngưỡng hoặc có lỗi."},
+{m:6,q:"Information security management cần cân bằng giữa các hoạt động nào?",o:["Phòng ngừa, phát hiện và khắc phục","Mua sắm, triển khai và thanh lý","Lập kế hoạch, xây dựng và vận hành","Ghi nhận, phân loại và đóng"],a:0,e:"Information security cần cân bằng prevention, detection và correction."},
+{m:6,q:"Thực hành nào hỗ trợ tổ chức đáp ứng kiểm toán bản quyền phần mềm từ nhà sản xuất?",o:["IT asset management","Release management","Relationship management","Service desk"],a:0,e:"IT asset management giúp đáp ứng yêu cầu pháp lý và hợp đồng, bao gồm tuân thủ bản quyền."},
+{m:6,q:"Phát biểu nào phân biệt đúng service configuration management và IT asset management?",o:["Hai thực hành hoàn toàn giống nhau","Configuration management tập trung vào thông tin cấu hình và mối quan hệ giữa CI; IT asset management tập trung vào vòng đời và giá trị tài chính của tài sản","IT asset management chỉ quản lý phần mềm","Configuration management chỉ quản lý hợp đồng"],a:1,e:"Hai thực hành bổ trợ nhau nhưng có trọng tâm khác nhau."},
+{m:6,q:"Phát biểu nào về release là ĐÚNG?",o:["Release luôn phải được triển khai cùng lúc với deployment","Một release có thể gồm nhiều thành phần (phần cứng, phần mềm, tài liệu, quy trình…) và được đưa vào sử dụng","Release chỉ áp dụng cho phần mềm","Release do service desk quyết định"],a:1,e:"Release là phiên bản dịch vụ/CI hoặc tập hợp CI được đưa vào sử dụng; có thể gồm nhiều loại thành phần."},
+/* ---- LO7 bổ sung: phát biểu đúng & tình huống ---- */
+{m:7,q:"Những phát biểu nào về service desk là ĐÚNG?\n1. Service desk là điểm liên hệ duy nhất cho người dùng\n2. Service desk phải đặt tại một địa điểm vật lý duy nhất\n3. Nhân viên service desk cần hiểu rộng về tổ chức và quy trình kinh doanh\n4. Service desk phải tự giải quyết mọi vấn đề kỹ thuật",o:["1 và 3","1 và 2","2 và 4","3 và 4"],a:0,e:"Service desk có thể là virtual (nhiều địa điểm) và không cần tự giải quyết mọi vấn đề kỹ thuật."},
+{m:7,q:"Những phát biểu nào về incident management là ĐÚNG?\n1. Mọi incident cần được ghi nhận và quản lý\n2. Incident được ưu tiên theo chức danh người báo\n3. Thời gian giải quyết mục tiêu cần được thống nhất và đáp ứng kỳ vọng người dùng\n4. Một số incident có thể do nhà cung cấp bên ngoài giải quyết",o:["1, 3 và 4","1 và 2","2 và 3","2, 3 và 4"],a:0,e:"Ưu tiên dựa trên impact và urgency theo phân loại đã thống nhất, không theo chức danh."},
+{m:7,q:"Những phát biểu nào về problem management là ĐÚNG?\n1. Problem management có ba giai đoạn\n2. Known error là problem đã được giải quyết\n3. Workaround có thể được ghi nhận trong bản ghi problem\n4. Error control bao gồm đánh giá lại hiệu quả của workaround",o:["1, 3 và 4","1 và 2","2 và 3","2 và 4"],a:0,e:"Known error là problem đã được PHÂN TÍCH nhưng CHƯA được giải quyết."},
+{m:7,q:"Những phát biểu nào về change enablement là ĐÚNG?\n1. Standard change đã được phê duyệt trước\n2. Emergency change không cần đánh giá hay phê duyệt\n3. Normal change có thể có rủi ro thấp\n4. Change schedule dùng để lập kế hoạch thay đổi",o:["1, 3 và 4","1 và 2","2 và 3","2, 3 và 4"],a:0,e:"Emergency change vẫn cần đánh giá và phê duyệt, dù có thể nhanh hơn và qua change authority riêng."},
+{m:7,q:"Những yêu cầu nào áp dụng cho SLA theo ITIL 4?\n1. Liên kết với một dịch vụ đã được định nghĩa\n2. Chỉ dùng các chỉ số kỹ thuật\n3. Gắn với kết quả (outcome) chứ không chỉ chỉ số vận hành\n4. Viết đơn giản, dễ hiểu",o:["1, 3 và 4","1 và 2","2 và 4","2 và 3"],a:0,e:"SLA cần gắn với dịch vụ, phản ánh outcome và dễ hiểu; chỉ dùng chỉ số kỹ thuật dễ gây watermelon effect."},
+{m:7,q:"Trong mô hình continual improvement, bước nào ngay SAU bước “Take action”?",o:["Did we get there?","How do we get there?","Where are we now?","How do we keep the momentum going?"],a:0,e:"Thứ tự: … How do we get there? → Take action → Did we get there? → How do we keep the momentum going?"},
+{m:7,q:"Phát biểu nào về service request là ĐÚNG?",o:["Service request là dấu hiệu dịch vụ bị lỗi","Service request là phần bình thường của việc cung cấp dịch vụ, không phải lỗi hay suy giảm dịch vụ","Service request luôn cần change authority phê duyệt","Service request và incident nên dùng chung một quy trình"],a:1,e:"Service request là hành động dịch vụ đã thoả thuận, phần bình thường của việc cung cấp dịch vụ."},
+{m:7,q:"Problem nên được ưu tiên dựa trên yếu tố nào?",o:["Thứ tự được ghi nhận","Rủi ro mà problem gây ra, tức tác động và khả năng xảy ra của các incident liên quan","Số lượng người trong đội problem","Ý kiến của nhà cung cấp"],a:1,e:"Problem được quản lý và ưu tiên dựa trên rủi ro (impact và probability)."},
+{m:7,q:"Một tổ chức áp dụng DevOps, triển khai hàng chục thay đổi mỗi ngày. Hội đồng phê duyệt tập trung trở thành nút thắt.\nCách tiếp cận nào phù hợp với ITIL 4?",o:["Giữ nguyên hội đồng phê duyệt tập trung cho mọi thay đổi","Phân quyền phê duyệt, ví dụ dùng peer review và tự động hoá cho các thay đổi phù hợp","Ngừng ghi nhận thay đổi","Xử lý mọi thay đổi như emergency change"],a:1,e:"Trong môi trường tốc độ cao, việc phê duyệt change có thể được phân quyền (decentralized), như dùng peer review."},
+{m:7,q:"Service desk ở một bệnh viện nhận cuộc gọi từ bác sĩ báo hệ thống bệnh án điện tử không mở được hồ sơ bệnh nhân đang cấp cứu.\nNhân viên service desk nên làm gì đầu tiên?",o:["Ghi nhận như service request và xử lý theo thứ tự","Ghi nhận incident, đánh giá mức ưu tiên cao dựa trên tác động và độ khẩn cấp, điều phối ngay đến nhóm phù hợp","Yêu cầu bác sĩ gửi email mô tả chi tiết","Mở problem record trước khi xử lý"],a:1,e:"Đây là incident có impact và urgency rất cao; cần ghi nhận, ưu tiên và điều phối ngay."},
+{m:7,q:"Sau khi giải quyết một major incident, công ty muốn ngăn nó xảy ra lại.\nThực hành nào nên được kích hoạt?",o:["Problem management","Service request management","Service level management","Release management"],a:0,e:"Tìm và loại bỏ nguyên nhân để ngăn tái diễn là việc của problem management."},
+{m:7,q:"Cổng tự phục vụ cho phép người dùng đặt mua phụ kiện từ danh mục, tự động gửi duyệt cho quản lý và cập nhật trạng thái qua email.\nĐiều này thể hiện tốt nhất đặc điểm nào của service request management?",o:["Service request nên được chuẩn hoá, tự động hoá và đặt kỳ vọng rõ cho người dùng","Service request không cần phê duyệt","Service request phải qua service desk bằng điện thoại","Service request là một loại incident"],a:0,e:"Chuẩn hoá, tự động hoá, tích hợp phê duyệt và thông báo trạng thái là cách quản lý service request tốt."},
+{m:7,q:"Một service desk đo hiệu quả chỉ bằng số cuộc gọi xử lý mỗi giờ. Nhân viên bắt đầu kết thúc cuộc gọi vội, người dùng phải gọi lại nhiều lần.\nĐiều gì nên được cân nhắc?",o:["Tăng chỉ tiêu số cuộc gọi","Dùng thêm các chỉ số phản ánh trải nghiệm và kết quả của người dùng, như tỷ lệ giải quyết lần đầu và mức hài lòng","Bỏ hẳn việc đo lường","Chuyển toàn bộ sang email"],a:1,e:"Chỉ số cần phản ánh giá trị và trải nghiệm, không chỉ năng suất; đây cũng là tinh thần Focus on value."},
+{m:7,q:"Một known error đã có workaround hiệu quả. Chi phí sửa triệt để rất cao trong khi tác động của lỗi thấp.\nQuyết định nào phù hợp trong error control?",o:["Bắt buộc sửa triệt để ngay bất kể chi phí","Có thể chấp nhận tiếp tục dùng workaround sau khi đánh giá chi phí, rủi ro và lợi ích; định kỳ xem lại","Xoá known error","Chuyển thành service request"],a:1,e:"Error control đánh giá giải pháp dựa trên chi phí, rủi ro và lợi ích; không phải known error nào cũng được sửa ngay."},
+{m:7,q:"Đội cải tiến đã xác định tầm nhìn: “Trở thành đơn vị hỗ trợ được người dùng tin cậy nhất”. Bước tiếp theo họ nên làm gì?",o:["Đánh giá hiện trạng một cách khách quan (Where are we now?)","Triển khai ngay các cải tiến","Đo xem đã đạt mục tiêu chưa","Lập kế hoạch duy trì động lực"],a:0,e:"Sau What is the vision? là Where are we now?, đánh giá hiện trạng làm cơ sở."}
+];
+
+/* ================= TIỆN ÍCH ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+const shuffle = (a, rnd=Math.random) => { a = a.slice(); for (let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+/* bộ sinh số ngẫu nhiên có hạt giống: đề số N luôn ra cùng một bộ câu */
+const seeded = s => () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+QS.forEach((q,i)=>q.id=i);
+const FIXED_EXAMS = 8;
+const store = {
+  get(k, d){ try { const v = localStorage.getItem("itil4f:"+k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem("itil4f:"+k, JSON.stringify(v)); } catch(e){} }
+};
+const LETTERS = ["A","B","C","D"];
+/* xáo thứ tự 4 lựa chọn, giữ đúng đáp án */
+const mix = q => { const ord = shuffle([0,1,2,3]); return {...q, o: ord.map(k=>q.o[k]), a: ord.indexOf(q.a)}; };
+const loName = id => LOS.find(l=>l.id===id);
+
+/* ================= ĐIỀU HƯỚNG ================= */
+const VIEWS = ["tong-quan","bai-hoc","the-nho","luyen-tap","thi-thu"];
+function route(){
+  const h = location.hash.replace("#","");
+  const v = VIEWS.includes(h) ? h : "tong-quan";
+  document.querySelectorAll("section.view").forEach(s=>s.classList.toggle("on", s.id==="v-"+v));
+  document.querySelectorAll("nav.tabs a").forEach(a=>a.classList.toggle("on", a.dataset.v===v));
+  if (v==="tong-quan") renderHistory();
+}
+window.addEventListener("hashchange", ()=>{ route(); window.scrollTo(0,0); });
+
+/* ================= TỔNG QUAN ================= */
+function renderOverview(){
+  $("#weightRows").innerHTML = LOS.map(l=>`<tr><td><span class="tag">LO${l.id}</span></td><td>${l.name}<br><span class="en">${l.en}</span></td><td class="num">${l.n}</td><td><div class="bar"><i style="width:${l.n/17*100}%"></i></div></td></tr>`).join("");
+  const done = store.get("plan", {});
+  $("#plan").innerHTML = PLAN.map((t,i)=>`<div class="day ${done[i]?"done":""}"><span class="d">Ngày ${i+1}</span><label for="pd${i}"><input type="checkbox" id="pd${i}" data-i="${i}" ${done[i]?"checked":""}><span class="txt">${esc(t)}</span></label></div>`).join("");
+  const count = () => { const d = store.get("plan",{}); $("#planCount").textContent = Object.values(d).filter(Boolean).length + "/14 ngày đã xong"; };
+  $("#plan").addEventListener("change", e=>{
+    if (!e.target.matches("input")) return;
+    const d = store.get("plan", {}); d[e.target.dataset.i] = e.target.checked; store.set("plan", d);
+    e.target.closest(".day").classList.toggle("done", e.target.checked); count();
+  });
+  count();
+}
+function renderHistory(){
+  const h = store.get("history", []);
+  if (!h.length){ $("#history").innerHTML = `<p class="lead">Chưa có bài thi thử nào. Hãy làm đề đầu tiên sau khi học xong Bài 7 (ngày 13 trong lộ trình).</p>`; return; }
+  $("#history").innerHTML = `<div class="tbl"><table><thead><tr><th>Lần</th><th>Ngày</th><th>Đề</th><th>Điểm</th><th>Kết quả</th></tr></thead><tbody>${h.slice().reverse().map((r,i)=>`<tr><td class="num">${h.length-i}</td><td class="num">${esc(r.d)}</td><td>${esc(r.k||"Đề ngẫu nhiên")}</td><td class="num">${r.s}/40</td><td><span class="pill ${r.s>=26?"pass":"fail"}">${r.s>=26?"Đạt":"Chưa đạt"}</span></td></tr>`).join("")}</tbody></table></div>`;
+}
+
+/* ================= BÀI HỌC ================= */
+function renderLessons(){
+  $("#lessons").innerHTML = LESSONS.map((L,i)=>{
+    const lo = loName(L.lo);
+    return `<details class="lesson" ${i===0?"open":""}><summary><span class="lo">LO${lo.id}</span><h3>Bài ${lo.id}. ${lo.name}</h3><span class="w">${lo.n} câu trong đề</span></summary><div class="body">${L.html}<div class="btnrow"><a class="btn primary" href="#luyen-tap" data-practice="${lo.id}" style="text-decoration:none">Luyện câu hỏi Bài ${lo.id}</a>${lo.id===7?`<a class="btn" href="#luyen-tap" data-practice="s" style="text-decoration:none">Luyện câu tình huống</a>`:""}</div></div></details>`;
+  }).join("");
+  $("#lessons").addEventListener("click", e=>{
+    const a = e.target.closest("[data-practice]"); if (!a) return;
+    $("#prSel").value = a.dataset.practice; setTimeout(startPractice, 0);
+  });
+}
+
+/* ================= THẺ GHI NHỚ ================= */
+let fc = {list:[], i:0, flipped:false};
+function fcBuild(){
+  const f = $("#fcFilter").value, k = $("#fcKnown").value, known = store.get("known", {});
+  fc.list = CARDS.map((c,idx)=>({c,idx})).filter(x=>(f==="all"||x.c[0]==+f) && (k==="all"||!known[x.idx]));
+  fc.i = 0; fcShow();
+}
+function fcShow(){
+  const known = store.get("known", {});
+  fc.flipped = false;
+  $("#fcBack").classList.add("hidden"); $("#fcHint").textContent = "Bấm để xem định nghĩa";
+  if (!fc.list.length){ $("#fcFront").textContent="Bạn đã thuộc hết bộ thẻ này"; $("#fcTag").textContent=""; $("#fcCount").textContent="0 thẻ"; $("#fcHint").textContent="Chọn “Tất cả” để ôn lại"; return; }
+  const {c, idx} = fc.list[fc.i];
+  $("#fcTag").textContent = "LO"+c[0]+(known[idx]?" · Đã thuộc":"");
+  $("#fcFront").textContent = c[1]; $("#fcBack").textContent = c[2];
+  $("#fcCount").textContent = (fc.i+1)+" / "+fc.list.length;
+  $("#fcKnow").textContent = known[idx] ? "Bỏ đánh dấu đã thuộc" : "Đã thuộc";
+}
+function fcFlip(){ if(!fc.list.length) return; fc.flipped=!fc.flipped; $("#fcBack").classList.toggle("hidden",!fc.flipped); $("#fcHint").textContent = fc.flipped?"Bấm để úp thẻ":"Bấm để xem định nghĩa"; }
+function fcMove(d){ if(!fc.list.length) return; fc.i=(fc.i+d+fc.list.length)%fc.list.length; fcShow(); }
+function initFlash(){
+  $("#fcFilter").innerHTML = `<option value="all">Tất cả (${CARDS.length} thẻ)</option>` + LOS.map(l=>`<option value="${l.id}">LO${l.id}. ${l.name}</option>`).join("");
+  $("#fcFilter").onchange = fcBuild; $("#fcKnown").onchange = fcBuild;
+  $("#fcCard").onclick = fcFlip;
+  $("#fcPrev").onclick = ()=>fcMove(-1); $("#fcNext").onclick = ()=>fcMove(1);
+  $("#fcShuffle").onclick = ()=>{ fc.list = shuffle(fc.list); fc.i=0; fcShow(); };
+  $("#fcKnow").onclick = ()=>{ if(!fc.list.length) return; const k=store.get("known",{}); const idx=fc.list[fc.i].idx; k[idx]=!k[idx]; store.set("known",k);
+    if ($("#fcKnown").value==="todo" && k[idx]){ fc.list.splice(fc.i,1); if(fc.i>=fc.list.length) fc.i=0; } fcShow(); };
+  document.addEventListener("keydown", e=>{
+    if (!$("#v-the-nho").classList.contains("on") || e.target.matches("select,input")) return;
+    if (e.key==="ArrowRight") fcMove(1); else if (e.key==="ArrowLeft") fcMove(-1);
+    else if (e.key===" " ){ e.preventDefault(); fcFlip(); }
+  });
+  fcBuild();
+}
+
+/* ================= LUYỆN THEO BÀI ================= */
+let pr = null;
+function initPractice(){ refreshPracticeOptions(); $("#prStart").onclick = startPractice; }
+function refreshPracticeOptions(){
+  const cur = $("#prSel").value, w = Object.keys(wrongSet()).length;
+  $("#prSel").innerHTML = `<option value="w" ${w?"":"disabled"}>Câu đã làm sai (${w} câu)</option>` + LOS.map(l=>`<option value="${l.id}">Bài ${l.id}. ${l.name} (${QS.filter(q=>q.m===l.id).length} câu)</option>`).join("") + `<option value="s">Tình huống LO7 (${QS.filter(q=>q.t).length} câu)</option>` + `<option value="0">Tất cả các bài (${QS.length} câu, ngẫu nhiên)</option>`;
+  const opt = cur && $("#prSel").querySelector(`option[value="${cur}"]:not([disabled])`);
+  $("#prSel").value = opt ? cur : "1";
+}
+function startPractice(){
+  const v = $("#prSel").value, m = (v==="s"||v==="w") ? v : +v;
+  const w = wrongSet();
+  const pool = m==="s" ? QS.filter(q=>q.t) : m==="w" ? QS.filter(q=>w[q.id]) : QS.filter(q=>!m||q.m===m);
+  if (!pool.length) return;
+  pr = {qs: shuffle(pool).map(mix), i:0, right:0, answered:false, m};
+  $("#prBox").classList.remove("hidden"); renderPractice();
+  $("#prBox").scrollIntoView({block:"start", behavior:"smooth"});
+}
+function renderPractice(){
+  const box = $("#prBox");
+  if (pr.i >= pr.qs.length){
+    const pct = Math.round(pr.right/pr.qs.length*100);
+    const best = store.get("prbest",{}); if (!best[pr.m] || pct>best[pr.m]) { best[pr.m]=pct; store.set("prbest",best); }
+    box.innerHTML = `<h2>Hoàn thành</h2><div class="result-big"><span class="score">${pr.right}/${pr.qs.length}</span><span class="pill ${pct>=80?"pass":"fail"}">${pct}%</span></div><p class="lead">${pct>=80?"Tốt. Chuyển sang bài tiếp theo hoặc ôn bằng thẻ ghi nhớ.":"Nên đọc lại bài học và làm lượt nữa. Mục tiêu: từ 80% trở lên ở mỗi bài."}</p><div class="btnrow"><button class="btn primary" id="prAgain">Làm lại bài này</button><a class="btn" href="#bai-hoc" style="text-decoration:none">Về bài học</a></div>`;
+    $("#prAgain").onclick = startPractice; refreshPracticeOptions(); renderExamPicker(); return;
+  }
+  const q = pr.qs[pr.i]; pr.answered = false;
+  box.innerHTML = `<div class="q-head"><span class="tag">LO${q.m}${q.t?" · Tình huống":""}</span><span class="counter">Câu ${pr.i+1}/${pr.qs.length} · Đúng ${pr.right}</span></div>
+  <p class="q-text">${esc(q.q)}</p>
+  <div class="opts">${q.o.map((o,j)=>`<button class="opt" data-j="${j}"><span class="k">${LETTERS[j]}</span><span>${esc(o)}</span></button>`).join("")}</div>
+  <div id="prEx"></div>
+  <div class="btnrow"><button class="btn primary hidden" id="prNext">${pr.i+1<pr.qs.length?"Câu tiếp →":"Xem kết quả"}</button></div>`;
+  box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    if (pr.answered) return; pr.answered = true;
+    const j = +b.dataset.j, ok = j===q.a; if (ok) pr.right++;
+    markAnswer(q.id, ok);
+    box.querySelectorAll(".opt").forEach(x=>{ const k=+x.dataset.j; if(k===q.a) x.classList.add("right"); else if(k===j) x.classList.add("wrong"); });
+    $("#prEx").innerHTML = `<div class="explain ${ok?"ok":"no"}"><b>${ok?"Chính xác.":"Chưa đúng. Đáp án: "+LETTERS[q.a]+"."}</b> ${esc(q.e)}</div>`;
+    $("#prNext").classList.remove("hidden"); $("#prNext").focus();
+  });
+  $("#prNext").onclick = ()=>{ pr.i++; renderPractice(); };
+}
+
+/* ================= THI THỬ ================= */
+let ex = null, exTick = null;
+function wrongSet(){ return store.get("wrong", {}); }
+function markAnswer(id, ok){ const w = wrongSet(); if (ok) delete w[id]; else w[id] = 1; store.set("wrong", w); }
+function buildExam(kind){
+  if (kind==="wrong"){
+    const w = wrongSet(); const pool = QS.filter(q=>w[q.id]);
+    let qs = shuffle(pool).slice(0,40);
+    if (qs.length < 40) qs = qs.concat(shuffle(QS.filter(q=>!w[q.id])).slice(0, 40-qs.length));
+    return shuffle(qs).map(mix);
+  }
+  const rnd = kind==="random" ? Math.random : seeded(1000 + (+kind)*7919);
+  let qs = [];
+  LOS.forEach(l=>{ qs = qs.concat(shuffle(QS.filter(q=>q.m===l.id), rnd).slice(0,l.n)); });
+  return shuffle(qs, rnd).map(mix);
+}
+function examLabel(kind){ return kind==="random" ? "Đề ngẫu nhiên" : kind==="wrong" ? "Đề ôn câu sai" : "Đề số "+kind; }
+function renderExamPicker(){
+  const best = store.get("exbest", {}), w = Object.keys(wrongSet()).length;
+  $("#exKind").innerHTML = `<option value="random">Đề ngẫu nhiên (mỗi lần một bộ mới)</option>` +
+    Array.from({length:FIXED_EXAMS},(_,i)=>`<option value="${i+1}">Đề số ${i+1}${best[i+1]!=null?" · cao nhất "+best[i+1]+"/40":""}</option>`).join("") +
+    `<option value="wrong" ${w?"":"disabled"}>Đề ôn câu sai (${w} câu đã sai${w<40&&w?", bổ sung câu mới cho đủ 40":""})</option>`;
+}
+function startExam(){
+  const mins = +$("#exTime").value, kind = $("#exKind").value;
+  ex = {kind, qs: buildExam(kind),ans: Array(40).fill(null), flag: Array(40).fill(false), i:0, end: mins? Date.now()+mins*60000 : 0, mins, start: Date.now(), done:false};
+  $("#exIntro").classList.add("hidden"); $("#exResult").classList.add("hidden"); $("#exRun").classList.remove("hidden");
+  $("#exConfirm").classList.add("hidden");
+  clearInterval(exTick); if (ex.end) { exTick = setInterval(tick, 1000); } tick();
+  renderExamQ();
+}
+function tick(){
+  if (!ex || ex.done) return;
+  if (!ex.end){ $("#exTimer").textContent = "Không tính giờ"; return; }
+  const left = Math.max(0, ex.end - Date.now());
+  const m = Math.floor(left/60000), s = Math.floor(left%60000/1000);
+  $("#exTimer").textContent = "Còn " + String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  $("#exTimer").classList.toggle("low", left < 5*60000);
+  if (left<=0) finishExam();
+}
+function renderExamQ(){
+  const q = ex.qs[ex.i], a = ex.ans[ex.i];
+  $("#exQ").innerHTML = `<div class="q-head"><span class="counter">Câu ${ex.i+1} / 40</span>${ex.flag[ex.i]?'<span class="tag mark">Đã đánh dấu</span>':""}</div>
+  <p class="q-text">${esc(q.q)}</p>
+  <div class="opts">${q.o.map((o,j)=>`<button class="opt ${a===j?"sel":""}" data-j="${j}"><span class="k">${LETTERS[j]}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
+  $("#exQ").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{ ex.ans[ex.i] = +b.dataset.j; renderExamQ(); });
+  const answered = ex.ans.filter(x=>x!==null).length;
+  $("#exProg").textContent = `Đã trả lời ${answered}/40`;
+  $("#exFlag").textContent = ex.flag[ex.i] ? "Bỏ đánh dấu" : "Đánh dấu xem lại";
+  $("#exPrev").disabled = ex.i===0; $("#exNext").disabled = ex.i===39;
+  $("#exNav").innerHTML = ex.qs.map((_,k)=>`<button class="${ex.ans[k]!==null?"ans":""} ${ex.flag[k]?"flag":""} ${k===ex.i?"cur":""}" data-k="${k}" aria-label="Câu ${k+1}">${k+1}</button>`).join("");
+}
+function finishExam(){
+  if (!ex || ex.done) return;
+  ex.done = true; clearInterval(exTick);
+  const score = ex.qs.reduce((s,q,k)=>s+(ex.ans[k]===q.a?1:0),0);
+  const used = Math.round((Date.now()-ex.start)/60000);
+  const h = store.get("history", []); const d = new Date();
+  h.push({d: d.toLocaleDateString("vi-VN"), s: score, k: examLabel(ex.kind)}); store.set("history", h.slice(-30));
+  ex.qs.forEach((q,k)=>markAnswer(q.id, ex.ans[k]===q.a));
+  if (/^\d+$/.test(ex.kind)){ const b = store.get("exbest",{}); if (b[ex.kind]==null || score>b[ex.kind]) { b[ex.kind]=score; store.set("exbest",b); } }
+  renderExamPicker(); refreshPracticeOptions();
+  const byLo = LOS.map(l=>{ const idx = ex.qs.map((q,k)=>q.m===l.id?k:-1).filter(k=>k>=0); const r = idx.filter(k=>ex.ans[k]===ex.qs[k].a).length; return {l, r, n: idx.length}; });
+  const weak = byLo.filter(x=>x.n && x.r/x.n < 0.7).map(x=>"Bài "+x.l.id);
+  $("#exRun").classList.add("hidden");
+  const R = $("#exResult"); R.classList.remove("hidden");
+  R.innerHTML = `<div class="card" style="display:flex;flex-direction:column;gap:14px">
+    <h1>Kết quả: ${examLabel(ex.kind)}</h1>
+    <div class="result-big"><span class="score">${score}/40</span><span class="pill ${score>=26?"pass":"fail"}">${score>=26?"ĐẠT":"CHƯA ĐẠT"}</span><span class="counter">${Math.round(score/40*100)}% · cần 26/40 (65%) · làm trong ${used} phút</span></div>
+    <p class="lead">${score>=32?"Rất tốt. Đạt từ 32/40 ổn định qua 2 lần là bạn đã sẵn sàng đăng ký thi.":score>=26?"Bạn đã qua ngưỡng đạt nhưng còn sát. Ôn thêm các bài yếu để có biên an toàn.":"Chưa qua ngưỡng. Ôn lại các bài yếu bên dưới rồi thi lại."}${weak.length?" Cần ôn thêm: "+weak.join(", ")+".":""}</p>
+    <div class="tbl"><table><thead><tr><th>Bài</th><th>Đúng</th><th style="width:40%">Tỷ lệ</th></tr></thead><tbody>
+    ${byLo.map(x=>`<tr><td>LO${x.l.id}. ${x.l.name}</td><td class="num">${x.r}/${x.n}</td><td><div class="bar"><i style="width:${x.n?x.r/x.n*100:0}%;background:${x.n&&x.r/x.n<0.7?"var(--bad)":"var(--good)"}"></i></div></td></tr>`).join("")}
+    </tbody></table></div>
+    <div class="btnrow"><button class="btn primary" id="exAgain">Làm đề mới</button><button class="btn" id="exWrongOnly">Chỉ xem câu sai</button><button class="btn" id="exAll">Xem tất cả</button></div>
+  </div>
+  <div class="card"><div class="navgrid">${ex.qs.map((q,k)=>`<button class="${ex.ans[k]===q.a?"r":"x"}" data-go="${k}" aria-label="Câu ${k+1}">${k+1}</button>`).join("")}</div></div>
+  <div id="exReview" style="display:flex;flex-direction:column;gap:12px"></div>`;
+  const review = (wrongOnly)=>{
+    $("#exReview").innerHTML = ex.qs.map((q,k)=>{
+      const a = ex.ans[k], ok = a===q.a; if (wrongOnly && ok) return "";
+      return `<div class="card" id="rv${k}" style="display:flex;flex-direction:column;gap:10px"><div class="q-head"><span class="counter">Câu ${k+1}</span><span class="tag">LO${q.m}</span></div><p class="q-text">${esc(q.q)}</p><div class="opts">${q.o.map((o,j)=>`<div class="opt ${j===q.a?"right":(j===a?"wrong":"")}"><span class="k">${LETTERS[j]}</span><span>${esc(o)}</span></div>`).join("")}</div><div class="explain ${ok?"ok":"no"}"><b>${ok?"Đúng.":(a===null?"Bỏ trống.":"Sai.")}</b> ${esc(q.e)}</div></div>`;
+    }).join("") || `<p class="lead">Không có câu sai. Xuất sắc.</p>`;
+  };
+  review(true);
+  $("#exAgain").onclick = ()=>{ R.classList.add("hidden"); $("#exIntro").classList.remove("hidden"); window.scrollTo(0,0); };
+  $("#exWrongOnly").onclick = ()=>review(true);
+  $("#exAll").onclick = ()=>review(false);
+  R.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{ if(!$("#rv"+b.dataset.go)) review(false); $("#rv"+b.dataset.go).scrollIntoView({behavior:"smooth"}); });
+  window.scrollTo(0,0);
+}
+function initExam(){
+  renderExamPicker();
+  $("#exStart").onclick = startExam;
+  $("#exPrev").onclick = ()=>{ if(ex.i>0){ex.i--; renderExamQ();} };
+  $("#exNext").onclick = ()=>{ if(ex.i<39){ex.i++; renderExamQ();} };
+  $("#exFlag").onclick = ()=>{ ex.flag[ex.i]=!ex.flag[ex.i]; renderExamQ(); };
+  $("#exNav").onclick = e=>{ const b=e.target.closest("[data-k]"); if(!b) return; ex.i=+b.dataset.k; renderExamQ(); };
+  $("#exSubmit").onclick = ()=>{
+    const blank = ex.ans.filter(x=>x===null).length, fl = ex.flag.filter(Boolean).length;
+    $("#exConfirmTxt").textContent = `Bạn còn ${blank} câu chưa trả lời và ${fl} câu đang đánh dấu. Nộp bài ngay?`;
+    $("#exConfirm").classList.remove("hidden"); $("#exConfirm").scrollIntoView({behavior:"smooth"});
+  };
+  $("#exYes").onclick = finishExam;
+  $("#exNo").onclick = ()=>$("#exConfirm").classList.add("hidden");
+}
+
+/* ================= KHỞI ĐỘNG ================= */
+renderOverview(); renderLessons(); initFlash(); initPractice(); initExam(); route();
+</script>
+</body>
+</html>
