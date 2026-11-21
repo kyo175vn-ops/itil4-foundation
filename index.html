@@ -1152,7 +1152,7 @@ function initSync(){
     const raw = $("#tokenIn").value.replace(/[\u200B-\u200D\uFEFF\s]/g, "");
     if (!raw){ sync.status("Hãy dán token vào ô trước khi bấm Kết nối.","err"); return; }
     /* chỉ lấy đúng phần mã token, bỏ chữ hoặc ký tự thừa dán kèm */
-    const m = raw.match(/(ghp_[A-Za-z0-9]{30,})|(github_pat_[A-Za-z0-9_]{30,})/);
+    const m = raw.match(/(ghp_[A-Za-z0-9]{36})|(github_pat_[A-Za-z0-9_]{30,})/);
     if (!m){ sync.status("Không tìm thấy mã token trong nội dung đã dán. Token đúng bắt đầu bằng ghp_ và chỉ gồm chữ cái không dấu và số. Hãy bấm biểu tượng sao chép cạnh mã trên trang GitHub rồi dán lại.","err"); return; }
     $("#tokenIn").value = m[0]; sync.connect(m[0]);
   };
