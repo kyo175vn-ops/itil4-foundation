@@ -317,7 +317,8 @@ ol.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px;m
         <li>Dán token vào ô dưới đây và bấm <b>Kết nối</b>. Trên thiết bị thứ hai, dùng lại cùng token này (hoặc tạo token mới cùng tài khoản GitHub).</li>
       </ol>
       <label for="tokenIn" class="counter">Token GitHub (chỉ quyền gist)</label>
-      <input id="tokenIn" class="field" type="password" autocomplete="off" spellcheck="false" placeholder="ghp_...">
+      <input id="tokenIn" class="field" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" lang="en" inputmode="text" placeholder="ghp_...">
+      <label for="tokenShow" class="counter" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="tokenShow"> Hiện mã để kiểm tra (bắt đầu bằng ghp_, dài 40 ký tự)</label>
       <div class="btnrow"><button class="btn primary" id="syncConnect">Kết nối</button></div>
     </div>
     <div id="syncOn" class="hidden" style="display:flex;flex-direction:column;gap:10px">
@@ -1147,7 +1148,15 @@ const sync = {
 };
 window.__sync = sync;
 function initSync(){
-  $("#syncConnect").onclick = ()=>{ const v = $("#tokenIn").value.trim(); if (!v){ sync.status("Hãy dán token vào ô trước khi bấm Kết nối.","err"); return; } sync.connect(v); };
+  $("#syncConnect").onclick = ()=>{
+    const raw = $("#tokenIn").value.replace(/[\u200B-\u200D\uFEFF\s]/g, "");
+    if (!raw){ sync.status("Hãy dán token vào ô trước khi bấm Kết nối.","err"); return; }
+    /* chỉ lấy đúng phần mã token, bỏ chữ hoặc ký tự thừa dán kèm */
+    const m = raw.match(/(ghp_[A-Za-z0-9]{30,})|(github_pat_[A-Za-z0-9_]{30,})/);
+    if (!m){ sync.status("Không tìm thấy mã token trong nội dung đã dán. Token đúng bắt đầu bằng ghp_ và chỉ gồm chữ cái không dấu và số. Hãy bấm biểu tượng sao chép cạnh mã trên trang GitHub rồi dán lại.","err"); return; }
+    $("#tokenIn").value = m[0]; sync.connect(m[0]);
+  };
+  $("#tokenShow").onchange = e => { $("#tokenIn").type = e.target.checked ? "text" : "password"; };
   $("#syncNow").onclick = ()=>sync.syncNow();
   $("#syncOff").onclick = ()=>sync.off();
   sync.ui();
