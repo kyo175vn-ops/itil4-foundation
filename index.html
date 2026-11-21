@@ -138,6 +138,12 @@ select{font:inherit;padding:7px 10px;border-radius:7px;border:1px solid var(--li
 .day input{margin-top:5px;accent-color:var(--accent)}
 .day.done .txt{color:var(--muted);text-decoration:line-through}
 .hidden{display:none!important}
+.sdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--line);margin-left:4px;vertical-align:middle}
+.sdot.on{background:var(--good)} .sdot.err{background:var(--bad)} .sdot.busy{background:var(--mark)}
+input.field{font:inherit;padding:8px 10px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--ink);width:100%;max-width:460px}
+ol.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px;max-width:70ch}
+.status{font-size:.94rem;padding:10px 14px;border-radius:8px;background:var(--paper);border:1px solid var(--line)}
+.status.ok{border-color:var(--good);background:var(--good-soft)} .status.err{border-color:var(--bad);background:var(--bad-soft)}
 @media (max-width:520px){
   h1{font-size:1.5rem}
   .card{padding:16px}
@@ -157,6 +163,7 @@ select{font:inherit;padding:7px 10px;border-radius:7px;border:1px solid var(--li
       <a href="#the-nho" data-v="the-nho">Thẻ ghi nhớ</a>
       <a href="#luyen-tap" data-v="luyen-tap">Luyện theo bài</a>
       <a href="#thi-thu" data-v="thi-thu">Thi thử</a>
+      <a href="#dong-bo" data-v="dong-bo">Đồng bộ <span id="syncDot" class="sdot" aria-hidden="true"></span></a>
     </nav>
   </div>
 </header>
@@ -292,6 +299,35 @@ select{font:inherit;padding:7px 10px;border-radius:7px;border:1px solid var(--li
     </div>
   </div>
   <div id="exResult" class="hidden" style="display:flex;flex-direction:column;gap:16px"></div>
+</section>
+
+<!-- ============ ĐỒNG BỘ ============ -->
+<section class="view" id="v-dong-bo">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <h1>Đồng bộ tiến độ giữa các thiết bị</h1>
+    <p class="lead">Tiến độ (lộ trình, thẻ đã thuộc, câu đã sai, điểm thi thử) được lưu vào một Gist bí mật trên tài khoản GitHub của bạn. Trang tự tải tiến độ mới nhất khi mở và tự lưu sau mỗi lần bạn học. Làm các bước dưới đây một lần trên mỗi thiết bị (máy tính, điện thoại).</p>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;gap:14px">
+    <div id="syncStatus" class="status">Chưa kết nối. Tiến độ hiện chỉ lưu trên thiết bị này.</div>
+    <div id="syncSetup" style="display:flex;flex-direction:column;gap:14px">
+      <h2>Kết nối</h2>
+      <ol class="steps">
+        <li>Mở <a href="https://github.com/settings/tokens/new?scopes=gist&amp;description=ITIL4%20sync" target="_blank" rel="noopener">trang tạo token của GitHub</a> (đăng nhập nếu được hỏi). Quyền <b>gist</b> đã được tích sẵn, không tích thêm quyền nào khác.</li>
+        <li>Chọn thời hạn (Expiration), ví dụ 90 ngày, rồi bấm <b>Generate token</b> và sao chép mã bắt đầu bằng <code>ghp_</code>.</li>
+        <li>Dán token vào ô dưới đây và bấm <b>Kết nối</b>. Trên thiết bị thứ hai, dùng lại cùng token này (hoặc tạo token mới cùng tài khoản GitHub).</li>
+      </ol>
+      <label for="tokenIn" class="counter">Token GitHub (chỉ quyền gist)</label>
+      <input id="tokenIn" class="field" type="password" autocomplete="off" spellcheck="false" placeholder="ghp_...">
+      <div class="btnrow"><button class="btn primary" id="syncConnect">Kết nối</button></div>
+    </div>
+    <div id="syncOn" class="hidden" style="display:flex;flex-direction:column;gap:10px">
+      <div class="btnrow">
+        <button class="btn primary" id="syncNow">Đồng bộ ngay</button>
+        <button class="btn" id="syncOff">Ngắt kết nối trên thiết bị này</button>
+      </div>
+    </div>
+    <div class="tip"><b>An toàn:</b> token chỉ được lưu trong trình duyệt của thiết bị này và chỉ có quyền đọc/ghi Gist, không truy cập được repo hay cài đặt khác. Gist được tạo ở chế độ bí mật. Bạn có thể thu hồi token bất cứ lúc nào tại github.com/settings/tokens.</div>
+  </div>
 </section>
 
 </main>
@@ -789,15 +825,19 @@ QS.forEach((q,i)=>q.id=i);
 const FIXED_EXAMS = 8;
 const store = {
   get(k, d){ try { const v = localStorage.getItem("itil4f:"+k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
-  set(k, v){ try { localStorage.setItem("itil4f:"+k, JSON.stringify(v)); } catch(e){} }
+  set(k, v){ try { localStorage.setItem("itil4f:"+k, JSON.stringify(v)); } catch(e){}
+    if (SYNC_KEYS.includes(k)) { const ts = this.get("ts", {}); ts[k] = Date.now(); this.raw("ts", ts); this.raw("updatedAt", ts[k]); if (window.__sync) window.__sync.schedule(); } },
+  raw(k, v){ try { localStorage.setItem("itil4f:"+k, JSON.stringify(v)); } catch(e){} },
+  del(k){ try { localStorage.removeItem("itil4f:"+k); } catch(e){} }
 };
+const SYNC_KEYS = ["plan","known","history","wrong","exbest","prbest"];
 const LETTERS = ["A","B","C","D"];
 /* xáo thứ tự 4 lựa chọn, giữ đúng đáp án */
 const mix = q => { const ord = shuffle([0,1,2,3]); return {...q, o: ord.map(k=>q.o[k]), a: ord.indexOf(q.a)}; };
 const loName = id => LOS.find(l=>l.id===id);
 
 /* ================= ĐIỀU HƯỚNG ================= */
-const VIEWS = ["tong-quan","bai-hoc","the-nho","luyen-tap","thi-thu"];
+const VIEWS = ["tong-quan","bai-hoc","the-nho","luyen-tap","thi-thu","dong-bo"];
 function route(){
   const h = location.hash.replace("#","");
   const v = VIEWS.includes(h) ? h : "tong-quan";
@@ -810,15 +850,23 @@ window.addEventListener("hashchange", ()=>{ route(); window.scrollTo(0,0); });
 /* ================= TỔNG QUAN ================= */
 function renderOverview(){
   $("#weightRows").innerHTML = LOS.map(l=>`<tr><td><span class="tag">LO${l.id}</span></td><td>${l.name}<br><span class="en">${l.en}</span></td><td class="num">${l.n}</td><td><div class="bar"><i style="width:${l.n/17*100}%"></i></div></td></tr>`).join("");
-  const done = store.get("plan", {});
-  $("#plan").innerHTML = PLAN.map((t,i)=>`<div class="day ${done[i]?"done":""}"><span class="d">Ngày ${i+1}</span><label for="pd${i}"><input type="checkbox" id="pd${i}" data-i="${i}" ${done[i]?"checked":""}><span class="txt">${esc(t)}</span></label></div>`).join("");
-  const count = () => { const d = store.get("plan",{}); $("#planCount").textContent = Object.values(d).filter(Boolean).length + "/14 ngày đã xong"; };
+  renderPlan();
   $("#plan").addEventListener("change", e=>{
     if (!e.target.matches("input")) return;
     const d = store.get("plan", {}); d[e.target.dataset.i] = e.target.checked; store.set("plan", d);
-    e.target.closest(".day").classList.toggle("done", e.target.checked); count();
+    e.target.closest(".day").classList.toggle("done", e.target.checked); planCount();
   });
-  count();
+}
+function planCount(){ const d = store.get("plan",{}); $("#planCount").textContent = Object.values(d).filter(Boolean).length + "/14 ngày đã xong"; }
+function renderPlan(){
+  const done = store.get("plan", {});
+  $("#plan").innerHTML = PLAN.map((t,i)=>`<div class="day ${done[i]?"done":""}"><span class="d">Ngày ${i+1}</span><label for="pd${i}"><input type="checkbox" id="pd${i}" data-i="${i}" ${done[i]?"checked":""}><span class="txt">${esc(t)}</span></label></div>`).join("");
+  planCount();
+}
+/* vẽ lại mọi phần phụ thuộc tiến độ sau khi tải dữ liệu từ thiết bị khác */
+function refreshAll(){
+  renderPlan(); renderHistory(); refreshPracticeOptions(); renderExamPicker();
+  const keep = fc.i; fcBuild(); if (keep < fc.list.length) { fc.i = keep; fcShow(); }
 }
 function renderHistory(){
   const h = store.get("history", []);
@@ -975,7 +1023,7 @@ function finishExam(){
   const score = ex.qs.reduce((s,q,k)=>s+(ex.ans[k]===q.a?1:0),0);
   const used = Math.round((Date.now()-ex.start)/60000);
   const h = store.get("history", []); const d = new Date();
-  h.push({d: d.toLocaleDateString("vi-VN"), s: score, k: examLabel(ex.kind)}); store.set("history", h.slice(-30));
+  h.push({d: d.toLocaleDateString("vi-VN"), s: score, k: examLabel(ex.kind), t: Date.now()}); store.set("history", h.slice(-30));
   ex.qs.forEach((q,k)=>markAnswer(q.id, ex.ans[k]===q.a));
   if (/^\d+$/.test(ex.kind)){ const b = store.get("exbest",{}); if (b[ex.kind]==null || score>b[ex.kind]) { b[ex.kind]=score; store.set("exbest",b); } }
   renderExamPicker(); refreshPracticeOptions();
@@ -1023,8 +1071,92 @@ function initExam(){
   $("#exNo").onclick = ()=>$("#exConfirm").classList.add("hidden");
 }
 
+/* ================= ĐỒNG BỘ QUA GITHUB GIST ================= */
+const GIST_FILE = "itil4-progress.json";
+const sync = {
+  timer: null, busy: false,
+  token(){ return store.get("token", ""); },
+  gist(){ return store.get("gistId", ""); },
+  async api(path, opts={}){
+    const r = await fetch("https://api.github.com"+path, {...opts, headers:{"Authorization":"Bearer "+this.token(),"Accept":"application/vnd.github+json","Content-Type":"application/json"}});
+    if (!r.ok){ const err = new Error(r.status===401?"Token không hợp lệ hoặc đã hết hạn. Hãy tạo token mới.":r.status===403||r.status===404?"Token không có quyền gist, hoặc Gist đã bị xoá.":"GitHub báo lỗi "+r.status+"."); err.status=r.status; throw err; }
+    return r.status===204 ? null : r.json();
+  },
+  snapshot(){ const o = {app:"itil4f", updatedAt: store.get("updatedAt", 0), ts: store.get("ts", {})}; SYNC_KEYS.forEach(k=>o[k]=store.get(k, k==="history"?[]:{})); return o; },
+  status(msg, kind){ const s=$("#syncStatus"); s.textContent=msg; s.className="status"+(kind==="ok"?" ok":kind==="err"?" err":""); $("#syncDot").className="sdot"+(kind==="ok"?" on":kind==="err"?" err":kind==="busy"?" busy":""); },
+  ui(){ const on = !!(this.token() && this.gist()); $("#syncSetup").classList.toggle("hidden", on); $("#syncOn").classList.toggle("hidden", !on); },
+  async connect(tok){
+    store.raw("token", tok.trim());
+    this.status("Đang kết nối với GitHub…","busy");
+    try {
+      const me = await this.api("/user");
+      let id = "";
+      for (let page=1; page<=5 && !id; page++){
+        const list = await this.api("/gists?per_page=100&page="+page);
+        const g = list.find(x=>x.files && x.files[GIST_FILE]); if (g) id = g.id;
+        if (list.length < 100) break;
+      }
+      if (!id){
+        const g = await this.api("/gists", {method:"POST", body: JSON.stringify({description:"Tiến độ luyện thi ITIL 4 Foundation", public:false, files:{[GIST_FILE]:{content: JSON.stringify(this.snapshot())}}})});
+        id = g.id;
+      }
+      store.raw("gistId", id); store.raw("login", me.login);
+      $("#tokenIn").value = ""; this.ui();
+      await this.syncNow();
+    } catch(e){ store.del("token"); store.del("gistId"); this.ui(); this.status("Không kết nối được: "+e.message, "err"); }
+  },
+  merge(remote){
+    /* lấy bản mới hơn cho từng phần; lịch sử thi gộp từ cả hai bên */
+    /* mỗi loại dữ liệu lấy theo bên sửa sau cùng (ts[k]); nếu cùng thời điểm thì giữ bên có dữ liệu */
+    const local = this.snapshot(), rts = remote.ts || {}, lts = local.ts || {};
+    const out = {app:"itil4f", updatedAt: Math.max(remote.updatedAt||0, local.updatedAt||0), ts:{}};
+    const empty = v => !v || (typeof v==="object" && !Object.keys(v).length);
+    SYNC_KEYS.forEach(k=>{
+      const r = rts[k]||0, l = lts[k]||0;
+      const useRemote = r > l || (r === l && empty(local[k]) && !empty(remote[k]));
+      out.ts[k] = Math.max(r, l);
+      if (k!=="history") out[k] = (useRemote ? remote[k] : local[k]) || {};
+    });
+    const seen = new Set(), hist = [];
+    [...(remote.history||[]), ...(local.history||[])].forEach(r=>{ const key = r.t || (r.d+"|"+r.s+"|"+(r.k||"")); if (!seen.has(key)){ seen.add(key); hist.push(r); } });
+    hist.sort((a,b)=>(a.t||0)-(b.t||0));
+    out.history = hist.slice(-30);
+    return out;
+  },
+  async syncNow(){
+    if (!this.token() || !this.gist()) return;
+    if (this.busy){ this.pending = true; return; }
+    this.busy = true; this.status("Đang đồng bộ…","busy");
+    try {
+      const g = await this.api("/gists/"+this.gist());
+      const f = g.files[GIST_FILE];
+      let remote = {};
+      if (f){ let txt = f.content; if (f.truncated) txt = await (await fetch(f.raw_url)).text(); try { remote = JSON.parse(txt||"{}"); } catch(e){ remote = {}; } }
+      const before = JSON.stringify(this.snapshot()), merged = this.merge(remote);
+      SYNC_KEYS.forEach(k=>store.raw(k, merged[k])); store.raw("updatedAt", merged.updatedAt); store.raw("ts", merged.ts);
+      if (JSON.stringify(merged) !== JSON.stringify(remote))
+        await this.api("/gists/"+this.gist(), {method:"PATCH", body: JSON.stringify({files:{[GIST_FILE]:{content: JSON.stringify(merged)}}})});
+      if (JSON.stringify(this.snapshot()) !== before) refreshAll();
+      const t = new Date(); this.status(`Đã đồng bộ với GitHub (${store.get("login","")}) lúc ${t.toLocaleTimeString("vi-VN",{hour:"2-digit",minute:"2-digit"})}.`,"ok");
+    } catch(e){ this.status("Đồng bộ lỗi: "+e.message, "err"); if (e.status===401) { store.del("token"); this.ui(); } }
+    this.busy = false;
+    if (this.pending){ this.pending = false; this.syncNow(); }
+  },
+  schedule(){ if (!this.token() || !this.gist()) return; clearTimeout(this.timer); $("#syncDot").className="sdot busy"; this.timer = setTimeout(()=>this.syncNow(), 2500); },
+  off(){ store.del("token"); store.del("gistId"); store.del("login"); this.ui(); this.status("Đã ngắt kết nối trên thiết bị này. Tiến độ vẫn còn trên thiết bị và trong Gist.", ""); }
+};
+window.__sync = sync;
+function initSync(){
+  $("#syncConnect").onclick = ()=>{ const v = $("#tokenIn").value.trim(); if (!v){ sync.status("Hãy dán token vào ô trước khi bấm Kết nối.","err"); return; } sync.connect(v); };
+  $("#syncNow").onclick = ()=>sync.syncNow();
+  $("#syncOff").onclick = ()=>sync.off();
+  sync.ui();
+  if (sync.token() && sync.gist()) sync.syncNow();
+  document.addEventListener("visibilitychange", ()=>{ if (document.visibilityState==="visible") sync.syncNow(); });
+}
+
 /* ================= KHỞI ĐỘNG ================= */
-renderOverview(); renderLessons(); initFlash(); initPractice(); initExam(); route();
+renderOverview(); renderLessons(); initFlash(); initPractice(); initExam(); initSync(); route();
 </script>
 </body>
 </html>

@@ -10,7 +10,7 @@ Trang web tự học để luyện thi chứng chỉ **ITIL 4 Foundation**, ch�
 - **Luyện theo bài:** 200 câu hỏi có giải thích, gồm 37 câu tình huống cho LO7 và các câu dạng “chọn các phát biểu đúng”.
 - **Thi thử:** 8 đề cố định, đề ngẫu nhiên, đề ôn câu sai; tính giờ 60 hoặc 75 phút; chấm điểm theo từng LO.
 
-Tiến độ học (lộ trình, thẻ đã thuộc, câu sai, lịch sử điểm) được lưu trong `localStorage` của trình duyệt.
+Tiến độ học (lộ trình, thẻ đã thuộc, câu sai, lịch sử điểm) được lưu trong `localStorage` của trình duyệt. Mục **Đồng bộ** cho phép dùng chung tiến độ giữa máy tính và điện thoại: tiến độ được lưu vào một Gist bí mật trên tài khoản GitHub của bạn, dùng token chỉ có quyền `gist`.
 
 ## Chạy
 
